@@ -7,6 +7,7 @@ interface ButtonProps {
   width: "xs" | "sm" | "md" | "lg";
   height: "xs" | "sm" | "md" | "lg";
   children: React.ReactNode;
+  onClick?: () => void;
 }
 
 const FontSizeClasses = {
@@ -46,7 +47,8 @@ export const Button = ({
   width,
   height,
   children,
-  disabled = true,
+  disabled = false,
+  onClick,
 }: ButtonProps) => {
   return (
     <>
@@ -60,6 +62,7 @@ export const Button = ({
           VarientClasses[varient],
           disabled && disabledClasses
         )}
+        onClick={onClick}
       >
         {children}
       </button>
