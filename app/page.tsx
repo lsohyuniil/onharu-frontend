@@ -1,6 +1,7 @@
 import { Banner } from "./page-section/Banner";
 import { FindStore } from "./page-section/FindStore";
 import { CharityShop } from "./page-section/CharitySopt";
+import { ThanksCard } from "./page-section/ThanksCard";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Banner></Banner>
       <FindStore></FindStore>
       <CharityShop></CharityShop>
+      <ThanksCard />
     </>
   );
 }
