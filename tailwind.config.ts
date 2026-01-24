@@ -22,6 +22,7 @@ const config: Config = {
         "section-sm-bottom": "3,75rem",
       },
       fontSize: {
+        xs: ["0.75rem", { lineHeight: "1.5" }], // 12
         sm: ["0.875rem", { lineHeight: "1.5" }], // 14
         base: ["1rem", { lineHeight: "1.5" }], // 16
         md: ["1.125rem", { lineHeight: "1.5" }], // 18
@@ -45,7 +46,17 @@ const config: Config = {
         "main-hover": "#23574C",
         "main-active": "#1C443C",
         "main-900": "#14332D",
-        sub: "#FFE39A",
+        sub: {
+          main: "#FFE39A",
+          "sub-100": "#FFF8E1",
+          "sub-200": "#FFF1C2",
+          "sub-300": "#FFE9A8",
+          "sub-500": "#F5D67F",
+          "sub-600": "#E6C665",
+          "sub-700": "#CFAE52",
+          "sub-800": "#B2963F",
+          "sub-900": "#8A732E",
+        },
         border: "#E0E0E0",
         text: "#212121",
         muted: "#949494",
