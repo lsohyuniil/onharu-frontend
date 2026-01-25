@@ -6,9 +6,10 @@ import { CategoryName } from "./data";
 interface NavigatinProps {
   value: CategoryName;
   onChange: (category: CategoryName) => void;
+  InitializePage: () => void;
 }
 
-export const Navigation = ({ value, onChange }: NavigatinProps) => {
+export const Navigation = ({ value, onChange, InitializePage }: NavigatinProps) => {
   const categoryBaseClasses =
     "flex cursor-pointer items-center gap-2 rounded-full border border-gray-300 px-4.5 py-1 shadow-md";
 
@@ -17,7 +18,10 @@ export const Navigation = ({ value, onChange }: NavigatinProps) => {
       {CategoryData.map(item => (
         <button
           key={item.id}
-          onClick={() => onChange(item.name)}
+          onClick={() => {
+            InitializePage();
+            onChange(item.name);
+          }}
           className={clsx(
             categoryBaseClasses,
             value === item.name && "bg-main border-main text-white"

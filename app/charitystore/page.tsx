@@ -28,7 +28,7 @@ export default function CharityStore() {
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
       <h2 className="sr-only">나눔 가게 전체 보기</h2>
       <div className="wrapper">
-        <Navigation value={category} onChange={setCategory} />
+        <Navigation value={category} onChange={setCategory} InitializePage={handleFirstPage} />
         <div className="mt-section-sm-top md:mt-section-lg-top grid grid-cols-4 gap-4">
           {paginatedStores.map(item => (
             <Card
