@@ -13,7 +13,7 @@ export const Navigation = ({ value, onChange }: NavigatinProps) => {
     "flex cursor-pointer items-center gap-2 rounded-full border border-gray-300 px-4.5 py-1 shadow-md";
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex flex-wrap items-center justify-center gap-2">
       {CategoryData.map(item => (
         <button
           key={item.id}
@@ -26,7 +26,7 @@ export const Navigation = ({ value, onChange }: NavigatinProps) => {
           <div className="relative h-6 w-6">
             <Image src={item.icon} alt={`${item.name} 이동`} fill style={{ objectFit: "cover" }} />
           </div>
-          <span className="text-md font-bold text-inherit">{item.name}</span>
+          <span className="md:text-md text-sm font-bold text-inherit">{item.name}</span>
         </button>
       ))}
     </div>
