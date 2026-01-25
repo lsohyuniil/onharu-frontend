@@ -5,10 +5,19 @@ import { useCategoryFilter } from "@/components/feature/category/useCategoryFilt
 import { Card } from "@/components/ui/card/Card";
 import { Category } from "@/components/ui/card/Category";
 import { HashTag } from "@/components/ui/card/HashTag";
-import Pagination from "@/components/feature/pagination/Pagination";
+import { Pagination } from "@/components/feature/pagination/Pagination";
+import { usePagination } from "@/components/feature/pagination/usePagination";
 
 export default function CharityStore() {
   const { category, setCategory, filterByCategory } = useCategoryFilter();
+  const {
+    currentPage,
+    setCurrentPage,
+    handleFirstPage,
+    handlePrevPage,
+    handleLastPage,
+    handleNextPage,
+  } = usePagination({ totalDataCount: 180, perPageDataCount: 16 });
   //const filterStore = filterByCategory(store)
   //
 
@@ -29,10 +38,14 @@ export default function CharityStore() {
 
         <div className="mt-section-sm-top md:mt-section-lg-top flex justify-center">
           <Pagination
-            setCurrentPage={() => {}}
-            totalDataCount={5}
-            currentPage={1}
-            perPageDataCount={3}
+            handleFirstPage={handleFirstPage}
+            handlePrevPage={handlePrevPage}
+            handleLastPage={handleLastPage}
+            handleNextPage={handleNextPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalDataCount={180}
+            perPageDataCount={16}
           ></Pagination>
         </div>
       </div>
