@@ -9,6 +9,8 @@ import { Pagination } from "@/components/feature/pagination/Pagination";
 import { usePagination } from "@/components/feature/pagination/usePagination";
 import { paginate } from "@/components/feature/pagination/utils/paginate";
 import { dummyStores } from "./data/data";
+import { useDropdown } from "@/components/feature/dropdown/useDropdown";
+import { SelectData } from "./data/dropdown";
 
 export default function CharityStore() {
   const { category, setCategory, filterByCategory } = useCategoryFilter();
@@ -21,6 +23,19 @@ export default function CharityStore() {
     handleNextPage,
   } = usePagination({ totalDataCount: 180, perPageDataCount: 16 });
 
+  const {
+    open,
+    selected,
+    highlightedIndex,
+    setSelected,
+    setHighlightedIndex,
+    handleOpen,
+    handleClose,
+    handleKeyDown,
+    containerRef,
+    listboxRef,
+  } = useDropdown({ options: SelectData });
+
   const filterStore = filterByCategory(dummyStores);
   const paginatedStores = paginate(filterStore, currentPage, 16);
 
@@ -29,8 +44,20 @@ export default function CharityStore() {
       <h2 className="sr-only">나눔 가게 전체 보기</h2>
       <div className="wrapper">
         <Navigation value={category} onChange={setCategory} InitializePage={handleFirstPage} />
-        <BgrDropdown />
-        <div className="mt-4 grid grid-cols-4 gap-4 md:mt-8">
+        <BgrDropdown
+          options={SelectData}
+          open={open}
+          selected={selected}
+          highlightedIndex={highlightedIndex}
+          setSelected={setSelected}
+          setHighlightedIndex={setHighlightedIndex}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+          handleKeyDown={handleKeyDown}
+          containerRef={containerRef}
+          listboxRef={listboxRef}
+        />
+        <div className="mt-4 grid grid-cols-2 gap-4 md:mt-8 lg:grid-cols-4">
           {paginatedStores.map(item => (
             <Card
               key={item.id}
