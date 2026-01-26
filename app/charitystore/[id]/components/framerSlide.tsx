@@ -73,7 +73,7 @@ export const FramerSlide = () => {
   return (
     <>
       {tabInfor && (
-        <p className="text-main absolute -top-6.5 left-0 z-10 flex items-center gap-1.5 text-sm font-bold">
+        <p className="text-main absolute -top-4.5 left-0 z-10 flex items-center gap-1.5 text-xs font-bold md:-top-6.5 md:text-sm">
           <RiKeyboardFill size={17} />
           키보드를 좌우로 움직여 매장 사진을 구경하세요!
         </p>
@@ -93,8 +93,8 @@ export const FramerSlide = () => {
           onBlur={() => handleTabInforClose()}
           className="h-full"
         >
-          <div className="flex h-full gap-5" ref={trackRef}>
-            <motion.div className="relative w-[calc(25%-15px)] shrink-0">
+          <div className="flex h-full gap-3 md:gap-5" ref={trackRef}>
+            <motion.div className="relative w-[calc(25%-11px)] shrink-0 md:w-[calc(25%-15px)]">
               <Image
                 src={"/image/page/test-image.png"}
                 alt=""
@@ -103,7 +103,7 @@ export const FramerSlide = () => {
                 className="pointer-events-none"
               />
             </motion.div>
-            <motion.div className="relative w-[calc(25%-15px)] shrink-0">
+            <motion.div className="relative w-[calc(25%-11px)] shrink-0 md:w-[calc(25%-15px)]">
               <Image
                 src={"/image/page/test-image.png"}
                 alt=""
@@ -112,7 +112,7 @@ export const FramerSlide = () => {
                 className="pointer-events-none"
               />
             </motion.div>
-            <motion.div className="relative w-[calc(25%-15px)] shrink-0">
+            <motion.div className="relative w-[calc(25%-11px)] shrink-0 md:w-[calc(25%-15px)]">
               <Image
                 src={"/image/page/test-image.png"}
                 alt=""
@@ -121,7 +121,7 @@ export const FramerSlide = () => {
                 className="pointer-events-none"
               />
             </motion.div>
-            <motion.div className="relative w-[calc(25%-15px)] shrink-0">
+            <motion.div className="relative w-[calc(25%-11px)] shrink-0 md:w-[calc(25%-15px)]">
               <Image
                 src={"/image/page/test-image.png"}
                 alt=""
@@ -130,7 +130,7 @@ export const FramerSlide = () => {
                 className="pointer-events-none"
               />
             </motion.div>
-            <motion.div className="relative w-[calc(25%-15px)] shrink-0">
+            <motion.div className="relative w-[calc(25%-11px)] shrink-0 md:w-[calc(25%-15px)]">
               <Image
                 src={"/image/page/test-image.png"}
                 alt=""
