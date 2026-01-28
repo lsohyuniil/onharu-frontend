@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function useModal() {
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleOpenModal = () => {
     setOpen(true);
