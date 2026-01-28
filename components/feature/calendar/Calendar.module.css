@@ -77,11 +77,16 @@ hover할 때는 배경 효과 on
 }
 /*effect - 선택된 날짜는 main 컬러로 active효과,
 hover 무시,
-focus 시 글자만 진하게 (background가 연한 컬러)
+focus 시 글자만 진하게 (background가 연한 컬러),
+disabled(예약 불가 날짜)의 경우 선택되어도 비활성화 css 유지
 */
 .wrapper :global(.react-datepicker__day--selected) {
   background-color: #2b6a5c !important;
   color: #fff !important;
+}
+.wrapper :global(.react-datepicker__day--selected[aria-disabled="true"]) {
+  background-color: transparent !important;
+  color: #ccc !important;
 }
 .wrapper :global(.react-datepicker__day--selected:focus-visible) {
   color: #212121 !important;
