@@ -13,7 +13,7 @@ export default function KakaoLoginButton({ className }: KakaoLoginButtonProps) {
       <h3 className="text-4 text-text-secondary text-center font-medium">간편 로그인</h3>
       <button
         type="button"
-        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-yellow-400 p-2.5 shadow-md hover:brightness-95 active:brightness-90"
+        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-[#FFD900] p-2.5 shadow-md hover:brightness-95 active:brightness-90"
       >
         <RiKakaoTalkFill size={30} />
       </button>
