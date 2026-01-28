@@ -59,7 +59,7 @@ const config: Config = {
         },
         border: "#E0E0E0",
         text: "#212121",
-        muted: "#949494",
+        subtle: "#949494",
         danger: "#EC0C0C",
       },
       animation: {

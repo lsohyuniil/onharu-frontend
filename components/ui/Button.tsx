@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 interface ButtonProps {
+  type?: "button" | "submit" | "reset";
   disabled?: boolean;
   varient: "light" | "default" | "dark";
   fontSize: "sm" | "md" | "lg";
@@ -42,6 +43,7 @@ const baseClasses =
 const disabledClasses = "!bg-main-300 !text-gray-50 cursor-not-allowed";
 
 export const Button = ({
+  type = "button",
   varient = "default",
   fontSize,
   width,
@@ -53,6 +55,7 @@ export const Button = ({
   return (
     <>
       <button
+        type={type}
         disabled={disabled}
         className={clsx(
           baseClasses,

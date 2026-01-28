@@ -32,7 +32,7 @@ export default function Input({
   return (
     <div className="relative flex w-full flex-col text-base">
       <label htmlFor={id} className="text-text mb-1.25 font-medium">
-        {label} {isRequired && <span className="text-[#EC0C0C]">*</span>}
+        {label} {isRequired && <span className="text-danger">*</span>}
       </label>
 
       <input
@@ -45,7 +45,7 @@ export default function Input({
         aria-describedby={error ? `${id}-error` : isVerified ? `${id}-verified` : undefined}
         required={isRequired}
         className={clsx(
-          "border-border placeholder:text-muted h-11.25 rounded-[10px] border px-2.5 transition-all duration-150 ease-in-out outline-none",
+          "border-border placeholder:text-subtle h-11.25 rounded-[10px] border px-2.5 transition-all duration-150 ease-in-out outline-none",
           disabled
             ? "bg-[#EEEEEE] text-[#757575]"
             : "hover:border-main focus:border-main text-text active:border-main focus:border-2"
