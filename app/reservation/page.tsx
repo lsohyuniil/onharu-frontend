@@ -53,12 +53,6 @@ export default function Reservation() {
           </p>
         </div>
         <DevideBar />
-        <button onClick={handleOpenModal}>modal on</button>
-        {open && (
-          <Modal onClick={handleCloseModal}>
-            <p>gss</p>
-          </Modal>
-        )}
         <div>
           <Heading title="날짜와 시간을 선택해 주세요." />
           <div className="mt-9">
