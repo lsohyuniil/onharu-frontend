@@ -9,11 +9,12 @@ import { CategoryName } from "../category/data";
 
 export async function getStorePosition(
   map: kakao.maps.Map,
-  address: string,
-  category: CategoryName
+  address: string | null,
+  category: CategoryName | null
 ): Promise<void> {
   const geocoder = new kakao.maps.services.Geocoder();
   try {
+    if (!address || !category) return;
     geocoder.addressSearch(address, (results, status) => {
       if (status === kakao.maps.services.Status.OK) {
         console.log(results);

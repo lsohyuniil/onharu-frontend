@@ -3,10 +3,23 @@
 import { SideMenu } from "./component/SideMenu";
 import { Map } from "@/components/feature/map/map";
 import { Navigation } from "@/components/feature/category/Navigation";
+import { useMyLocation } from "@/components/feature/map/hooks/useMyLocation";
 import { useCategoryFilter } from "@/components/feature/category/useCategoryFilter";
+import { useFilterStore } from "@/components/feature/map/hooks/useFilterStore";
+import { DummyData } from "./data/DummyData";
+import { useEffect, useState } from "react";
+import { NearbyStore } from "./type/type";
 
 export default function Nearby() {
+  const [stores, setStores] = useState<NearbyStore[]>([]);
+  const { mylocation, handleMyLocation } = useMyLocation();
   const { category, setCategory, filterByCategory } = useCategoryFilter();
+  const { storeData, handleFilterStore } = useFilterStore({ mylocation: mylocation, data: stores });
+
+  useEffect(() => {
+    if (mylocation.lat === 0) return;
+    setStores(DummyData(mylocation.lat, mylocation.lng));
+  }, [mylocation]);
 
   return (
     <section>
@@ -15,13 +28,9 @@ export default function Nearby() {
         <SideMenu></SideMenu>
         <div className="relative flex-1">
           <div className="absolute top-5 left-[50%] z-50 w-full -translate-x-[50%]">
-            <Navigation
-              value={category}
-              onChange={setCategory}
-              InitializePage={() => {}}
-            ></Navigation>
+            <Navigation value={category} onChange={setCategory} InitializePage={() => {}} />
           </div>
-          <Map type="search" address="경기도 수원시 권선구 세지로 39번길" category="식당"></Map>
+          <Map type="search" store={stores} handleMyLocation={handleMyLocation} />
         </div>
       </div>
     </section>
