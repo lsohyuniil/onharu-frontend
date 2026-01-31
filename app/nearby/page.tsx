@@ -6,15 +6,16 @@ import { Map } from "@/components/feature/map/map";
 import { Navigation } from "@/components/feature/category/Navigation";
 import { useMyLocation } from "@/components/feature/map/hooks/useMyLocation";
 import { useCategoryFilter } from "@/components/feature/category/useCategoryFilter";
-import { DummyData } from "./data/DummyData";
+import { useSearch } from "@/components/feature/map/hooks/useSearch";
 import { MyAddress } from "./component/MyAddress";
 import { Card } from "@/components/ui/card/Card";
 import { StoreAddress } from "@/components/ui/card/StoreAddress";
-import { Button } from "@/components/ui/Button";
-import { LocationSearch } from "./component/LocationSearch";
-import { NearbyStore } from "./type/type";
-import { useSearch } from "@/components/feature/map/hooks/useSearch";
 import { searchStores } from "@/components/feature/map/searchStore";
+import { Button } from "@/components/ui/Button";
+import { DevideBar } from "./component/DevideBar";
+import { LocationSearch } from "./component/LocationSearch";
+import { DummyData } from "./data/DummyData";
+import { NearbyStore } from "./type/type";
 
 export default function Nearby() {
   const [allStores, setAllStores] = useState<NearbyStore[]>([]);
@@ -71,6 +72,7 @@ export default function Nearby() {
         <SideMenu>
           <MyAddress mylocation={mylocation} />
           <LocationSearch value={inputValue} onChange={handleInputChange} onSearch={handleSearch} />
+          <DevideBar />
           <div className="grid grid-cols-1 gap-7.5">
             {stores.map(store => (
               <Card
