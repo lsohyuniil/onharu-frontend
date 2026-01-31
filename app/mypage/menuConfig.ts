@@ -20,15 +20,15 @@ export const ownerMenu = [
     icon: RiCalendarLine,
     items: [
       { label: "나눔 등록", href: "/mypage/sharing/create" },
-      { label: "나눔 내역 관리", href: "/mypage/sharing/history" },
-      { label: "예약 내역 관리", href: "/mypage/sharing/reservations" },
+      { label: "나눔 내역", href: "/mypage/sharing/history" },
+      { label: "예약 내역", href: "/mypage/sharing/reservations" },
     ],
   },
   {
     title: "가게 관리",
     icon: RiHandHeartLine,
     items: [
-      { label: "가게 등록/수정", href: "/mypage/store/edit" },
+      { label: "가게 등록", href: "/mypage/store/create" },
       { label: "내가 받은 감사카드", href: "/mypage/store/thanks" },
       { label: "1:1 문의하기", href: "/mypage/store/inquiry" },
     ],
