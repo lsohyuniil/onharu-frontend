@@ -34,31 +34,33 @@ export default function Nearby() {
 
     if (keyword) {
       result = searchStores({ stores: result, keyword: keyword });
-
-      // 검색 결과의 카테고리 분석
-      if (result.length > 0) {
-        const categories = result.map(store => store.category);
-        const uniqueCategories = [...new Set(categories)];
-
-        // 검색 결과가 모두 같은 카테고리면 해당 카테고리로 변경
-        if (uniqueCategories.length === 1) {
-          const resultCategory = uniqueCategories[0];
-          if (category !== resultCategory) {
-            setCategory(resultCategory);
-          }
-        } else {
-          // 여러 카테고리가 섞여있으면 "전체"로
-          if (category !== "전체") {
-            setCategory("전체");
-          }
-        }
-      }
     } else if (category !== "전체") {
       result = filterByCategory(result);
     }
 
     return result;
-  }, [allStores, keyword, category, filterByCategory, setCategory]);
+  }, [allStores, keyword, category, filterByCategory]);
+
+  // 검색 결과에 따라 카테고리 자동 변경
+  useEffect(() => {
+    if (!keyword) return; // 검색어 없으면 무시
+
+    if (stores.length > 0) {
+      const categories = stores.map(store => store.category);
+      const uniqueCategories = [...new Set(categories)];
+
+      if (uniqueCategories.length === 1) {
+        const resultCategory = uniqueCategories[0];
+        if (category !== resultCategory) {
+          setCategory(resultCategory);
+        }
+      } else {
+        if (category !== "전체") {
+          setCategory("전체");
+        }
+      }
+    }
+  }, [keyword, stores, category, setCategory]);
 
   const handleCategoryChange = () => {
     setKeyword("");
