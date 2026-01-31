@@ -1,14 +1,28 @@
-import { Card } from "@/components/ui/card/Card";
-import { Button } from "@/components/ui/Button";
-import { StoreAddress } from "@/components/ui/card/StoreAddress";
-import { MyAddress } from "./MyAddress";
-import { NearbyStore } from "../type/type";
-import { LocationSearch } from "./LocationSearch";
+import { useState } from "react";
+import { RiArrowLeftSLine } from "@remixicon/react";
+import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 export const SideMenu = ({ children }: { children: React.ReactNode }) => {
+  const [open, setOpen] = useState(true);
+
   return (
-    <article className="h-[100vh] w-full max-w-[435px] overflow-y-scroll bg-white px-7.5 py-12.5">
-      {children}
+    <article
+      className={cn(
+        "absolute top-20 left-0 z-51 h-[100vh] w-full max-w-[435px] bg-white duration-350",
+        !open && "-translate-x-full"
+      )}
+    >
+      <div className="relative h-full w-full">
+        <div className="flex h-full flex-col">{children}</div>
+        <button
+          onClick={() => setOpen(!open)}
+          aria-label="사이드바 메뉴를 열고 닫을 수 있습니다."
+          className="absolute top-[50%] -right-[35px] z-52 -translate-y-[50%] cursor-pointer rounded-r-lg border border-gray-300 bg-white px-[2.5px] py-4 shadow-xl"
+        >
+          <RiArrowLeftSLine size={30} className={cn(!open && "rotate-180")} />
+        </button>
+      </div>
     </article>
   );
 };

@@ -16,7 +16,7 @@ export const MyAddress = ({ mylocation }: { mylocation: { lat: number; lng: numb
   }, [mylocation]);
 
   return (
-    <div className="text-md flex items-center justify-between font-bold md:text-xl">
+    <div className="text-md flex items-center justify-between px-7 pt-12.5 font-bold md:text-xl">
       {myaddress}
       <Button varient="default" fontSize="sm" width="xs" height="xs">
         위치 변경

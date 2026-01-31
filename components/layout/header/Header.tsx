@@ -27,7 +27,7 @@ export const Header = () => {
       <div className="wrapper m-auto flex w-full items-center justify-between">
         <div className="flex items-center gap-24">
           <Link href={"/"}>
-            <h1 className="bg-main-100 h-[60px] w-[138px]">로고</h1>
+            <h1 className="bg-main-100 h-[80px] w-[138px]">로고</h1>
           </Link>
           <LayoutGroup>
             <nav>

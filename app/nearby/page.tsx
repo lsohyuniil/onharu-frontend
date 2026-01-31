@@ -73,7 +73,7 @@ export default function Nearby() {
           <MyAddress mylocation={mylocation} />
           <LocationSearch value={inputValue} onChange={handleInputChange} onSearch={handleSearch} />
           <DevideBar />
-          <div className="grid grid-cols-1 gap-7.5">
+          <div className="scrollbar-thin grid flex-1 grid-cols-1 gap-8 overflow-y-scroll p-7.5">
             {stores.map(store => (
               <Card
                 key={store.id}
@@ -87,18 +87,18 @@ export default function Nearby() {
                     예약하기
                   </Button>
                 }
-              ></Card>
+              />
             ))}
           </div>
-        </SideMenu>
-        <div className="relative flex-1">
-          <div className="absolute top-5 left-[50%] z-50 w-full -translate-x-[50%]">
+          <div className="absolute top-5 -right-[155%] z-50">
             <Navigation
               value={category}
               onChange={setCategory}
               InitializePage={handleCategoryChange}
             />
           </div>
+        </SideMenu>
+        <div className="relative flex-1">
           <Map type="search" store={stores} handleMyLocation={handleMyLocation} />
         </div>
       </div>

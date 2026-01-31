@@ -15,7 +15,7 @@ export const LocationSearch = ({ value, onChange, onSearch }: LocationSearchProp
   };
 
   return (
-    <div className="my-7.5">
+    <div className="my-7.5 px-7">
       <form
         action=""
         className="flex h-12.5 w-full items-center rounded-sm border border-gray-300 bg-white px-4 focus-within:outline-2"
