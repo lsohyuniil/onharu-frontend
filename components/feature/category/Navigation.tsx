@@ -19,8 +19,8 @@ export const Navigation = ({ value, onChange, InitializePage }: NavigatinProps) 
         <button
           key={item.id}
           onClick={() => {
-            InitializePage();
             onChange(item.name);
+            InitializePage();
           }}
           className={clsx(
             categoryBaseClasses,

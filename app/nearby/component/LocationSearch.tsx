@@ -1,24 +1,17 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { searchStores } from "@/components/feature/map/searchStore";
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { RiSearch2Line } from "@remixicon/react";
-import { NearbyStore } from "../type/type";
 
-export const LocationSearch = ({
-  stores,
-  setStores,
-}: {
-  stores: NearbyStore[];
-  setStores: Dispatch<SetStateAction<NearbyStore[]>>;
-}) => {
-  const [value, setValue] = useState<string>("");
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //valRef.current = e.currentTarget.value
-    setValue(e.currentTarget.value);
-  };
+interface LocationSearchProps {
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSearch: () => void;
+}
 
-  const handleSearch = () => {
-    const test = searchStores({ stores, keyword: value });
-    setStores(test);
+export const LocationSearch = ({ value, onChange, onSearch }: LocationSearchProps) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onSearch();
+    }
   };
 
   return (
@@ -30,10 +23,11 @@ export const LocationSearch = ({
         <input
           type="text"
           value={value || ""}
-          onChange={handleInput}
+          onChange={onChange}
+          onKeyDown={handleKeyDown}
           className="flex-1 focus:outline-none"
         />
-        <button onClick={handleSearch} type="button">
+        <button onClick={onSearch} type="button">
           <RiSearch2Line size={24} />
         </button>
       </form>
