@@ -7,6 +7,7 @@ import {
   SideMenu,
   StoreSearch,
   StoreSearchSkeleton,
+  SearchNoResult,
 } from "./component";
 import { DummyData } from "./data/DummyData";
 import { NearbyStore } from "./type/type";
@@ -113,6 +114,7 @@ export default function Nearby() {
             {!isReady && Array.from({ length: 3 }).map((_, idx) => <CardSkeleton key={idx} />)}
 
             {isReady &&
+              stores.length > 0 &&
               stores.map(store => (
                 <Card
                   type="nearby"
@@ -148,6 +150,8 @@ export default function Nearby() {
                   activeId={activeId}
                 />
               ))}
+
+            {isReady && stores.length === 0 && <SearchNoResult />}
           </div>
           <div className={cn("absolute top-5 -right-[155%] z-50", !isReady && "-z-10 opacity-0")}>
             <Navigation
