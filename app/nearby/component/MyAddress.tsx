@@ -20,7 +20,7 @@ export const MyAddress = ({ mylocation }: { mylocation: { lat: number; lng: numb
   if (myaddress == "") {
     return (
       <div className="px-7 pt-12.5">
-        <Skeleton height={40} />
+        <Skeleton height={40} style={{ lineHeight: "1.5" }} />
       </div>
     );
   }
