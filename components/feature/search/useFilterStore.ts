@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { getDistance } from "../utils/getDistance";
-import { DummyData } from "@/app/nearby/data/DummyData";
+import { getDistance } from "../map/utils/getDistance";
 import { NearbyStore } from "@/app/nearby/type/type";
 
 export const useFilterStore = ({

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 import { Button } from "@/components/ui/Button";
-import { getCoord } from "@/components/feature/map/getCoord";
+import { getCoord } from "@/components/feature/map/utils/getCoord";
 import { Toast } from "@/components/feature/toast/Toast";
 
 interface LocationSearchProps {

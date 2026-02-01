@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAddress } from "@/components/feature/map/getAddress";
+import { getAddress } from "@/components/feature/map/utils/getAddress";
 import { Button } from "@/components/ui/Button";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

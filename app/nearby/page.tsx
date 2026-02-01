@@ -15,8 +15,8 @@ import { Map } from "@/components/feature/map/map";
 import { Navigation } from "@/components/feature/category/Navigation";
 import { useMyLocation } from "@/components/feature/map/hooks/useMyLocation";
 import { useCategoryFilter } from "@/components/feature/category/useCategoryFilter";
-import { useSearch } from "@/components/feature/map/hooks/useSearch";
-import { getCurrentPosition } from "@/components/feature/map/getCurrentPositin";
+import { useSearch } from "@/components/feature/search/useSearch";
+import { getCurrentPosition } from "@/components/feature/map/utils/getCurrentPositin";
 
 import { Card } from "@/components/ui/card/Card";
 import { CardSkeleton } from "@/components/ui/card/CardSkeleton";

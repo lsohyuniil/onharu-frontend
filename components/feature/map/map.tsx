@@ -2,11 +2,11 @@
 import { useRef, useEffect, useState } from "react";
 import { MapLoading } from "./MapLoading";
 import { InitMap } from "./initMap";
-import { moveToCurrentLocation } from "./moveCurrentLocation";
+import { moveToCurrentLocation } from "./utils/moveCurrentLocation";
 import { getStorePosition } from "./getStorePosition";
 import { CategoryName } from "../category/data";
 import { NearbyStore } from "@/app/nearby/type/type";
-import { NearbyStoreMarker } from "./NearByStoreMarker";
+import { NearbyStoreMarker } from "./utils/NearByStoreMarker";
 
 interface BaseMapProps {
   address?: string | null;
