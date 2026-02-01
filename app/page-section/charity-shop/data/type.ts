@@ -5,4 +5,7 @@ export interface CardProps {
   storeIntroduce: string;
   category: string;
   tags?: string[];
+  openTime: string;
+  closeTime: string;
+  hasSharing: boolean;
 }

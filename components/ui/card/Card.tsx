@@ -1,10 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Like } from "../../feature/StoreLike";
 
 interface CardProps {
   storelink: string;
-  storeSrc?: string;
+  storeThumnail: React.ReactNode;
   storename: string;
   storeIntroduce: string;
   category?: React.ReactNode;
@@ -40,7 +39,7 @@ interface CardProps {
 
 export const Card = ({
   storelink,
-  storeSrc,
+  storeThumnail,
   storename,
   storeIntroduce,
   category,
@@ -54,13 +53,7 @@ export const Card = ({
       <div className="h-full overflow-hidden rounded-md border border-gray-300">
         <div className="relative h-[110px] md:h-[183px]">
           <div className="h-full w-full duration-300 ease-in-out group-hover:scale-105">
-            <Image
-              src={storeSrc || "/image/page/no-image.svg"}
-              fill
-              alt="가게 이미지"
-              priority
-              style={{ objectFit: "cover" }}
-            />
+            {storeThumnail}
           </div>
           {category}
         </div>

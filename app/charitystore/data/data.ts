@@ -7,4 +7,7 @@ export const dummyStores = Array.from({ length: 50 }, (_, i) => ({
   storeIntroduce: `이 가게는 맛있습니다 ${i + 1}`,
   category: categories[i % categories.length],
   hashtags: ["밥", "친절", "깔끔"],
+  openTime: "10:00",
+  closeTime: "21:00",
+  hasSharing: true,
 }));

@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card/Card";
 import { Category } from "@/components/ui/card/Category";
 import { HashTag } from "@/components/ui/card/HashTag";
 import { CardData } from "./data/data";
+import { Thumbnail } from "@/components/ui/card/Thumbnail";
 
 export const CharityShop = () => {
   return (
@@ -17,6 +18,14 @@ export const CharityShop = () => {
               <Card
                 key={items.id}
                 storelink={items.storelink}
+                storeThumnail={
+                  <Thumbnail
+                    src={""}
+                    openTime={items.openTime}
+                    closeTime={items.closeTime}
+                    hasSharing={items.hasSharing}
+                  />
+                }
                 storename={items.storename}
                 storeIntroduce={items.storeIntroduce}
                 category={<Category category={items.category} />}

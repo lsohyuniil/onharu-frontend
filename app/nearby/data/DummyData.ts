@@ -93,9 +93,9 @@ export function DummyData(baseLat: number, baseLng: number): NearbyStore[] {
       lng: baseLng + randomOffset(),
       address: "경기 수원시 권선구 세지로 인근",
       description: "초등학생 대상 무료 학습 지도",
-      openTime: "13:00",
+      openTime: "16:00",
       closeTime: "19:00",
-      hasSharing: true,
+      hasSharing: false,
     },
     {
       id: 8,

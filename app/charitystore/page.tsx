@@ -11,6 +11,7 @@ import { paginate } from "@/components/feature/pagination/utils/paginate";
 import { dummyStores } from "./data/data";
 import { useDropdown } from "@/components/feature/dropdown/useDropdown";
 import { SelectData } from "./data/dropdown";
+import { Thumbnail } from "@/components/ui/card/Thumbnail";
 
 export default function CharityStore() {
   const { category, setCategory, filterByCategory } = useCategoryFilter();
@@ -67,6 +68,14 @@ export default function CharityStore() {
             <Card
               key={item.id}
               storelink={item.storelink}
+              storeThumnail={
+                <Thumbnail
+                  src={""}
+                  openTime={item.openTime}
+                  closeTime={item.closeTime}
+                  hasSharing={item.hasSharing}
+                />
+              }
               storename={item.storename}
               storeIntroduce={item.storeIntroduce}
               category={<Category category={item.category} />}

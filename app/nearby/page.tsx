@@ -10,6 +10,7 @@ import { useSearch } from "@/components/feature/map/hooks/useSearch";
 import { MyAddress } from "./component/MyAddress";
 import { Card } from "@/components/ui/card/Card";
 import { OperatingBedge } from "@/components/ui/card/OperatingBedge";
+import { Thumbnail } from "@/components/ui/card/Thumbnail";
 import { StoreAddress } from "@/components/ui/card/StoreAddress";
 import { searchStores } from "@/components/feature/map/searchStore";
 import { Button } from "@/components/ui/Button";
@@ -97,7 +98,14 @@ export default function Nearby() {
                 <Card
                   key={store.id}
                   storelink="/"
-                  storeSrc=""
+                  storeThumnail={
+                    <Thumbnail
+                      src={""}
+                      openTime={store.openTime}
+                      closeTime={store.closeTime}
+                      hasSharing={store.hasSharing}
+                    />
+                  }
                   storename={store.name}
                   storeAddress={<StoreAddress address={store.address} />}
                   storeIntroduce={store.description}
