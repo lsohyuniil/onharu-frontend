@@ -1,5 +1,3 @@
-import { getCurrentPosition } from "./getCurrentPositin";
-
 /**
  * 내 주변 페이지에서만 사용됩니다.
  * 현재 위치로 이동 버튼을 누르면 해당 함수가 호출됩니다.

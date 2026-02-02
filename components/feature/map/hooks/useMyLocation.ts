@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const useMyLocation = () => {
+  const OriginLocationRef = useRef({ lat: 0, lng: 0 });
   const [mylocation, SetMyLocation] = useState({ lat: 0, lng: 0 });
 
   const handleMyLocation = (lat: number, lng: number) => {
@@ -10,5 +11,5 @@ export const useMyLocation = () => {
     });
   };
 
-  return { mylocation, handleMyLocation };
+  return { OriginLocationRef, mylocation, handleMyLocation };
 };

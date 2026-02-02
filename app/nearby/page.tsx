@@ -34,7 +34,7 @@ import { useActiveCard } from "@/components/feature/search/useActiveCard";
 
 export default function Nearby() {
   const [allStores, setAllStores] = useState<NearbyStore[]>([]);
-  const { mylocation, handleMyLocation } = useMyLocation();
+  const { OriginLocationRef, mylocation, handleMyLocation } = useMyLocation();
   const { inputValue, setInputValue, keyword, setKeyword, handleSearch, handleInputChange } =
     useSearch();
   const { category, setCategory, filterByCategory } = useCategoryFilter();
@@ -48,6 +48,7 @@ export default function Nearby() {
       const pos = await getCurrentPosition();
       const { latitude, longitude } = pos.coords;
       handleMyLocation(latitude, longitude);
+      OriginLocationRef.current = { lat: latitude, lng: longitude };
     })();
   }, []);
 
@@ -172,6 +173,8 @@ export default function Nearby() {
           <Map
             type="search"
             store={stores}
+            OriginLocationRef={OriginLocationRef}
+            handleMyLocation={handleMyLocation}
             mylocation={mylocation}
             handleActiveCard={handleActiveCard}
           />

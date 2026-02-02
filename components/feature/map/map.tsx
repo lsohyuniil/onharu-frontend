@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, RefObject } from "react";
 import { MapLoading } from "./MapLoading";
 import { InitMap } from "./initMap";
 import { MapZoom } from "./MapZoom";
@@ -9,6 +9,7 @@ import { NearbyStoreMarker } from "./utils/NearByStoreMarker";
 import { CategoryName } from "../category/data";
 import { NearbyStore } from "@/app/nearby/type/type";
 import { useZoomControl } from "./hooks/useZoomControl";
+import { MyLocation } from "./MyLocation";
 
 interface BaseMapProps {
   address?: string | null;
@@ -22,6 +23,8 @@ interface DetailMapProps extends BaseMapProps {
 interface SearchMapProps extends BaseMapProps {
   type: "search";
   store: NearbyStore[];
+  handleMyLocation: (lat: number, lng: number) => void;
+  OriginLocationRef: RefObject<{ lat: number; lng: number }>;
   mylocation: { lat: number; lng: number };
   handleActiveCard: (id: string) => void;
 }
@@ -40,6 +43,8 @@ export const Map = (props: MapProps) => {
   const { handleZoomIn, handleZoomOut } = useZoomControl(locationRef);
   const stores = type === "search" ? props.store : null;
   const mylocation = type === "search" ? props.mylocation : null;
+  const originLocation = type === "search" ? props.OriginLocationRef : null;
+  const handleMyLocation = type === "search" ? props.handleMyLocation : null;
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -105,6 +110,7 @@ export const Map = (props: MapProps) => {
         <>
           <MapLoading ready={mapReady} />
           <MapZoom handleZoomIn={handleZoomIn} handleZoomOut={handleZoomOut} />
+          <MyLocation handleMyLocation={handleMyLocation} originLocation={originLocation} />
         </>
       )}
     </>
