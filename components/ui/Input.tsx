@@ -5,18 +5,19 @@ import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 type InputType = React.HTMLInputTypeAttribute;
 
-type InputProps = {
+interface InputProps {
   label: string;
   id: string;
   type?: InputType;
   placeholder?: string;
   register?: UseFormRegisterReturn;
   error?: FieldError;
-  maxWidth?: string;
   disabled?: boolean;
   isRequired?: boolean;
   isVerified?: boolean;
-};
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 export default function Input({
   label,
@@ -28,7 +29,17 @@ export default function Input({
   disabled = false,
   isRequired = false,
   isVerified = false,
+  value,
+  onChange,
 }: InputProps) {
+  const hasError = Boolean(error);
+
+  const showVerified = !hasError && isVerified;
+
+  const describedBy = hasError ? `${id}-error` : showVerified ? `${id}-verified` : undefined;
+
+  const inputProps = register ? register : { onChange };
+
   return (
     <div className="relative flex w-full flex-col text-sm sm:text-base">
       <label htmlFor={id} className="text-text mb-1.25 font-medium">
@@ -38,12 +49,13 @@ export default function Input({
       <input
         id={id}
         type={type}
+        value={value}
         placeholder={placeholder}
         disabled={disabled}
-        {...(register ?? {})}
-        aria-invalid={!!error}
-        aria-describedby={error ? `${id}-error` : isVerified ? `${id}-verified` : undefined}
         required={isRequired}
+        aria-invalid={hasError}
+        aria-describedby={describedBy}
+        {...inputProps}
         className={clsx(
           "border-border placeholder:text-subtle h-11.25 rounded-[10px] border px-2.5 transition-all duration-150 ease-in-out outline-none",
           disabled
@@ -52,13 +64,13 @@ export default function Input({
         )}
       />
 
-      {error && (
+      {error && hasError && (
         <div id={`${id}-error`} className="text-danger mt-2.5 text-xs sm:text-sm">
           {error.message}
         </div>
       )}
 
-      {!error && isVerified && (
+      {showVerified && (
         <div id={`${id}-verified`} className="text-main-500 mt-2.5 text-xs sm:text-sm">
           인증 완료!
         </div>
