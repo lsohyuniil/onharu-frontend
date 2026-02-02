@@ -1,32 +1,42 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
-import ReservationCard from "./ReservationCard";
+import { useMemo, useEffect, ReactNode } from "react";
 import { Pagination } from "@/components/feature/pagination/Pagination";
 import { usePagination } from "@/components/feature/pagination/usePagination";
 import { paginate } from "@/components/feature/pagination/utils/paginate";
-import { ReservationItem } from "../types";
 
-interface ReservationDetailsProps {
-  items: ReservationItem[];
-  status: string;
+interface Props<T> {
+  items: T[];
+  getDate: (item: T) => string;
+  render: (item: T) => ReactNode;
+  emptyText?: string;
+  perPage?: number;
 }
 
-export default function ReservationDetails({ items }: ReservationDetailsProps) {
-  const perPage = 4;
+interface FlatItem<T> {
+  date: string;
+  item: T;
+}
 
+export default function DateGroupedPaginatedSection<T>({
+  items,
+  getDate,
+  render,
+  emptyText = "내역이 없습니다.",
+  perPage = 4,
+}: Props<T>) {
   // 날짜별 그룹핑, 최신순 정렬
-  const flatItems = useMemo(() => {
-    const groupedByDate = items.reduce<Record<string, ReservationItem[]>>((acc, item) => {
-      const dateKey = item.date.split("T")[0];
+  const flatItems: FlatItem<T>[] = useMemo(() => {
+    const grouped = items.reduce<Record<string, T[]>>((acc, item) => {
+      const dateKey = getDate(item).split("T")[0];
       (acc[dateKey] = acc[dateKey] || []).push(item);
       return acc;
     }, {});
 
-    return Object.keys(groupedByDate)
+    return Object.keys(grouped)
       .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
       .flatMap(date =>
-        groupedByDate[date].map(item => ({
+        grouped[date].map(item => ({
           date: new Date(date).toLocaleDateString("ko-KR", {
             year: "numeric",
             month: "long",
@@ -35,9 +45,9 @@ export default function ReservationDetails({ items }: ReservationDetailsProps) {
           item,
         }))
       );
-  }, [items]);
+  }, [items, getDate]);
 
-  // 페이지네이션
+  // 페이지 상태 관리
   const {
     currentPage,
     setCurrentPage,
@@ -47,52 +57,44 @@ export default function ReservationDetails({ items }: ReservationDetailsProps) {
     handleLastPage,
   } = usePagination({ totalDataCount: flatItems.length, perPageDataCount: perPage });
 
-  const paginatedItems = useMemo(
-    () => paginate(flatItems, currentPage, perPage),
-    [flatItems, currentPage, perPage]
-  );
+  // 현재 페이지 데이터
+  const paginatedItems = paginate(flatItems, currentPage, perPage);
 
-  // 페이지별로 날짜 그룹핑
-  const paginatedGrouped = useMemo(() => {
-    return paginatedItems.reduce<Record<string, ReservationItem[]>>((acc, { date, item }) => {
+  // 페이지별 날짜 그룹핑
+  const groupedPage: Record<string, T[]> = paginatedItems.reduce(
+    (acc, { date, item }) => {
       (acc[date] = acc[date] || []).push(item);
       return acc;
-    }, {});
-  }, [paginatedItems]);
-
-  const paginatedDates = useMemo(
-    () =>
-      Object.keys(paginatedGrouped).sort((a, b) => new Date(b).getTime() - new Date(a).getTime()),
-    [paginatedGrouped]
+    },
+    {} as Record<string, T[]>
   );
 
-  // 필터 변경 시 페이지 초기화
+  const dates = Object.keys(groupedPage);
+
+  // 데이터 변경 시 페이지 초기화
   useEffect(() => {
     setCurrentPage(1);
   }, [items, setCurrentPage]);
 
-  if (!items.length) {
+  if (!items.length)
     return (
       <p className="sm:text-md bg-secondary mt-6 rounded-[10px] py-8 text-center text-sm font-medium sm:mt-12.5">
-        예약 내역이 없습니다.
+        {emptyText}
       </p>
     );
-  }
 
   return (
     <div className="relative mb-10">
       <ul className="mt-6 flex flex-col gap-4 sm:mt-12.5">
-        {paginatedDates.map(date => (
+        {dates.map(date => (
           <div key={date}>
             <div className="sm:text-md mb-2 text-sm font-medium sm:mb-5">{date}</div>
-            {paginatedGrouped[date].map(item => (
-              <ReservationCard key={item.id} {...item} role={item.role} status={item.status} />
-            ))}
+            {groupedPage[date].map(render)}
           </div>
         ))}
       </ul>
 
-      <div className="mt-section-sm-top sm:mt-section-lg-top flex justify-center">
+      <div className="mt-10 flex justify-center">
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
