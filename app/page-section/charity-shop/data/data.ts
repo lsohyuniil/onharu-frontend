@@ -8,6 +8,9 @@ export const CardData: CardProps[] = [
     storeIntroduce: "그려요 그럼..",
     category: "카페",
     tags: ["커피", "쿠키"],
+    openTime: "10:00",
+    closeTime: "21:00",
+    hasSharing: true,
   },
   {
     id: "1252135",
@@ -16,6 +19,9 @@ export const CardData: CardProps[] = [
     storeIntroduce: "그려요 그럼..",
     category: "카페",
     tags: ["커피", "쿠키"],
+    openTime: "09:00",
+    closeTime: "14:00",
+    hasSharing: true,
   },
   {
     id: "64542323",
@@ -24,6 +30,9 @@ export const CardData: CardProps[] = [
     storeIntroduce: "그려요 그럼..",
     category: "카페",
     tags: ["커피", "쿠키"],
+    openTime: "10:00",
+    closeTime: "21:00",
+    hasSharing: true,
   },
   {
     id: "1534351",
@@ -32,5 +41,8 @@ export const CardData: CardProps[] = [
     storeIntroduce: "그려요 그럼..",
     category: "카페",
     tags: [],
+    openTime: "10:00",
+    closeTime: "23:00",
+    hasSharing: true,
   },
 ];

@@ -1,0 +1,142 @@
+"use client";
+import { useEffect, useState, useMemo } from "react";
+import { LocationSearch } from "./component";
+import { DummyData } from "./data/DummyData";
+import { NearbyStore } from "./type/type";
+
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Map } from "@/components/feature/map/map";
+import { useMyLocation } from "@/components/feature/map/hooks/useMyLocation";
+import { useCategoryFilter } from "@/components/feature/category/useCategoryFilter";
+import { useSearch } from "@/components/feature/search/useSearch";
+import { getCurrentPosition } from "@/components/feature/map/utils/getCurrentPositin";
+import { searchStores } from "@/components/feature/search/searchStore";
+import { useActiveCard } from "@/components/feature/search/useActiveCard";
+
+import { Modal } from "@/components/ui/Modal";
+import useModal from "@/hooks/useModal";
+import { DesktopView } from "./component/DesktopView";
+import { MobileView } from "./component/MobileView";
+
+export default function Nearby() {
+  const [allStores, setAllStores] = useState<NearbyStore[]>([]);
+  const { OriginLocationRef, mylocation, handleMyLocation } = useMyLocation();
+  const { inputValue, setInputValue, keyword, setKeyword, handleSearch, handleInputChange } =
+    useSearch();
+  const { category, setCategory, filterByCategory } = useCategoryFilter();
+  const { activeId, handleActiveCard, cardRefs } = useActiveCard();
+  const { open, handleOpenModal, handleCloseModal } = useModal();
+
+  const isReady = mylocation.lat !== 0;
+
+  const isCategoryQuery = useMediaQuery("(max-width: 1150px)");
+  const isSidemenuQuery = useMediaQuery("(max-width:820px)");
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
+  useEffect(() => {
+    (async () => {
+      const pos = await getCurrentPosition();
+      const { latitude, longitude } = pos.coords;
+      handleMyLocation(latitude, longitude);
+      OriginLocationRef.current = { lat: latitude, lng: longitude };
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (mylocation.lat === 0) return;
+    setAllStores(DummyData(mylocation.lat, mylocation.lng));
+  }, [mylocation]);
+
+  const stores = useMemo(() => {
+    let result = allStores;
+
+    if (keyword) {
+      result = searchStores({ stores: result, keyword: keyword });
+    } else if (category !== "전체") {
+      result = filterByCategory(result);
+    }
+
+    return result;
+  }, [allStores, keyword, category, filterByCategory]);
+
+  // 검색 결과에 따라 카테고리 자동 변경
+  useEffect(() => {
+    if (!keyword) return; // 검색어 없으면 무시
+
+    if (stores.length > 0) {
+      const categories = stores.map(store => store.category);
+      const uniqueCategories = [...new Set(categories)];
+
+      if (uniqueCategories.length === 1) {
+        const resultCategory = uniqueCategories[0];
+        if (category !== resultCategory) {
+          setCategory(resultCategory);
+        }
+      } else {
+        if (category !== "전체") {
+          setCategory("전체");
+        }
+      }
+    }
+  }, [keyword, stores, category, setCategory]);
+
+  const handleCategoryChange = () => {
+    setKeyword("");
+    setInputValue("");
+  };
+
+  const handleReservation = (e: MouseEvent) => {
+    e.preventDefault();
+  };
+
+  const commonProps = {
+    isReady,
+    mylocation,
+    inputValue,
+    stores,
+    category,
+    activeId,
+    cardRefs,
+    onOpenModal: handleOpenModal,
+    onInputChange: handleInputChange,
+    onSearch: handleSearch,
+    onCategoryChange: setCategory,
+    onCategoryInit: handleCategoryChange,
+    onReservation: handleReservation,
+  };
+
+  return (
+    <section>
+      <h2 className="sr-only">내 주변 착한가게를 찾을 수 있습니다.</h2>
+      <div className="flex h-[calc(100vh-205px)]">
+        {isMobile === false && (
+          <DesktopView
+            {...commonProps}
+            isCategoryQuery={isCategoryQuery}
+            isSidemenuQuery={isSidemenuQuery}
+          ></DesktopView>
+        )}
+        <div className="relative flex-1">
+          <Map
+            type="search"
+            store={stores}
+            OriginLocationRef={OriginLocationRef}
+            handleMyLocation={handleMyLocation}
+            mylocation={mylocation}
+            handleActiveCard={handleActiveCard}
+          />
+        </div>
+        {isMobile && <MobileView {...commonProps} />}
+      </div>
+      {open && (
+        <Modal onClick={handleCloseModal}>
+          <LocationSearch
+            open={open}
+            handleCloseModal={handleCloseModal}
+            handleMyLocation={handleMyLocation}
+          />
+        </Modal>
+      )}
+    </section>
+  );
+}

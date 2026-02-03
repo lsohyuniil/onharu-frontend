@@ -23,9 +23,11 @@
     "next": "16.1.4",
     "react": "19.2.3",
     "react-datepicker": "^9.1.0",
+    "react-daum-postcode": "^3.2.0",
     "react-dom": "19.2.3",
     "react-focus-lock": "^2.13.7",
     "react-hook-form": "^7.71.1",
+    "react-loading-skeleton": "^3.5.0",
     "react-toastify": "^11.0.5",
     "remixicon": "^4.8.0",
     "swiper": "^12.0.3",
@@ -45,6 +47,7 @@
     "kakao.maps.d.ts": "^0.1.40",
     "postcss": "^8.5.6",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.18",
     "typescript": "^5"
   }

@@ -48,6 +48,25 @@
   .wrapper {
     @apply max-w-wrapper px-wrapper mx-auto;
   }
+  .customoverlay {
+    @apply bg-main-500 absolute -top-29 -left-5 max-w-35 min-w-28 rounded-md px-2 py-2 pr-8 text-white shadow-xl;
+  }
+  .customoverlay > div {
+    @apply relative;
+  }
+  .customoverlay .arrow {
+    @apply border-t-main-500 absolute -bottom-4 h-0 w-0 border-t-9 border-r-8 border-l-8 border-r-transparent border-l-transparent;
+  }
+  .customoverlay .store_name {
+    @apply text-sm font-bold;
+  }
+  .customoverlay .sharing {
+    @apply text-sm font-normal;
+  }
+  .customoverlay .close_btn {
+    @apply text-main-hover absolute top-0.5 -right-6 z-10 h-4 w-4 cursor-pointer rounded-xs bg-transparent px-2 text-xs;
+    background-image: url("/image/icon/close-line.svg");
+  }
 }
 
 @theme inline {

@@ -5,7 +5,8 @@ export const StoreAddress = ({ address }: { address: string }) => {
   const [copied, setCopied] = useState(false);
   const copyText = address;
 
-  const handleCopy = async () => {
+  const handleCopy = async (e: MouseEvent) => {
+    e.preventDefault();
     try {
       await navigator.clipboard.writeText(copyText);
       setCopied(true);

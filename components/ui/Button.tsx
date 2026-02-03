@@ -8,7 +8,7 @@ interface ButtonProps {
   width: "xs" | "sm" | "md" | "lg";
   height: "xs" | "sm" | "md" | "lg";
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent) => void;
 }
 
 const FontSizeClasses = {

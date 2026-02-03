@@ -1,20 +1,50 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, RefObject } from "react";
+import { MapLoading } from "./MapLoading";
 import { InitMap } from "./initMap";
-import { moveToCurrentLocation } from "./moveCurrentLocation";
-import { getStorePosition } from "./getStorePosition";
+import { MapZoom } from "./MapZoom";
+import { moveToCurrentLocation } from "./utils/moveCurrentLocation";
+import { getStorePosition } from "./utils/getStorePosition";
+import { NearbyStoreMarker } from "./utils/NearByStoreMarker";
 import { CategoryName } from "../category/data";
+import { NearbyStore } from "@/app/nearby/type/type";
+import { useZoomControl } from "./hooks/useZoomControl";
+import { MyLocation } from "./MyLocation";
 
-interface MapProps {
-  type: "detail" | "search";
-  address: string;
-  category: CategoryName;
+interface BaseMapProps {
+  address?: string | null;
+  category?: CategoryName | null;
 }
 
-export const Map = ({ type, address, category }: MapProps) => {
+interface DetailMapProps extends BaseMapProps {
+  type: "detail";
+}
+
+interface SearchMapProps extends BaseMapProps {
+  type: "search";
+  store: NearbyStore[];
+  handleMyLocation: (lat: number, lng: number) => void;
+  OriginLocationRef: RefObject<{ lat: number; lng: number }>;
+  mylocation: { lat: number; lng: number };
+  handleActiveCard: (id: string) => void;
+}
+
+type MapProps = DetailMapProps | SearchMapProps;
+
+export const Map = (props: MapProps) => {
+  const { type, address, category } = props;
   const mapRef = useRef<HTMLDivElement>(null);
+  const CurrentOverlayRef = useRef<kakao.maps.CustomOverlay | null>(null);
   const locationRef = useRef<kakao.maps.Map | null>(null);
+  const markersRef = useRef<kakao.maps.Marker[]>([]);
+  const overLayRef = useRef<kakao.maps.CustomOverlay[]>([]);
+  const activeOverlayRef = useRef<kakao.maps.CustomOverlay | null>(null);
   const [mapReady, setMapReady] = useState<boolean>(false);
+  const { handleZoomIn, handleZoomOut } = useZoomControl(locationRef);
+  const stores = type === "search" ? props.store : null;
+  const mylocation = type === "search" ? props.mylocation : null;
+  const originLocation = type === "search" ? props.OriginLocationRef : null;
+  const handleMyLocation = type === "search" ? props.handleMyLocation : null;
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -23,17 +53,18 @@ export const Map = ({ type, address, category }: MapProps) => {
       if (!mapRef.current) return;
       const map = await InitMap(mapRef.current);
       locationRef.current = map;
-
-      if (type === "detail") await getStorePosition(map, address, category);
-      else if (type === "search") {
-        //await moveToCurrentLocation(map); //map center 순서보장을 위해
-      }
-
-      //searchNearbyStores(map, '동물병원')
-      setMapReady(true);
+      if (!address || !category) return;
+      await getStorePosition(map, address, category);
     };
 
     mapload();
+
+    (window as any).handleOverlayClose = () => {
+      if (activeOverlayRef.current) {
+        activeOverlayRef.current.setMap(null);
+        activeOverlayRef.current = null;
+      }
+    };
 
     return () => {
       // //search 상태 초기화
@@ -44,5 +75,48 @@ export const Map = ({ type, address, category }: MapProps) => {
       // useTransformStore.getState().setTransform(53)
     };
   }, []);
-  return <div className="h-full w-full" ref={mapRef} />;
+
+  useEffect(() => {
+    if (props.type !== "search" || !mylocation || !locationRef.current) return;
+    moveToCurrentLocation(locationRef.current, CurrentOverlayRef, mylocation.lat, mylocation.lng);
+    NearbyStoreMarker(
+      locationRef.current,
+      stores,
+      markersRef,
+      overLayRef,
+      activeOverlayRef,
+      props.handleActiveCard
+    );
+    setMapReady(true);
+  }, [mylocation]);
+
+  useEffect(() => {
+    if (props.type !== "search" || !locationRef.current || !props.store.length) return;
+
+    NearbyStoreMarker(
+      locationRef.current,
+      stores,
+      markersRef,
+      overLayRef,
+      activeOverlayRef,
+      props.handleActiveCard
+    );
+  }, [stores]);
+
+  return (
+    <>
+      <div className="h-full w-full" ref={mapRef} />
+      {type === "search" && (
+        <>
+          <MapLoading ready={mapReady} />
+          <MapZoom handleZoomIn={handleZoomIn} handleZoomOut={handleZoomOut} mapReady={mapReady} />
+          <MyLocation
+            handleMyLocation={handleMyLocation}
+            originLocation={originLocation}
+            mapReady={mapReady}
+          />
+        </>
+      )}
+    </>
+  );
 };
