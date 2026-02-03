@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import Select, { SelectOption } from "@/components/ui/Select";
 
 interface StoreOption {
   id: number;
@@ -18,6 +19,11 @@ export default function ReviewWriteForm({ stores }: Props) {
 
   const isValid = selectedStore !== "" && content.trim().length > 0;
 
+  const storeOptions: SelectOption[] = stores.map(store => ({
+    label: store.name,
+    value: store.id,
+  }));
+
   const handleSubmit = () => {
     if (!isValid) return;
 
@@ -30,23 +36,16 @@ export default function ReviewWriteForm({ stores }: Props) {
   };
 
   return (
-    <div>
-      <div className="mb-8 flex flex-col gap-2">
-        <div className="sm:text-md text-base">매장 선택</div>
+    <div className="mb-8 flex flex-col gap-2">
+      <div className="sm:text-md text-base">매장 선택</div>
 
-        <select
-          value={selectedStore}
-          onChange={e => setSelectedStore(e.target.value ? Number(e.target.value) : "")}
-          className="mt-2 rounded-[5px] bg-white p-1.25 text-sm outline-none sm:p-2.5"
-        >
-          <option value="">매장을 선택해 주세요.</option>
-          {stores.map(store => (
-            <option key={store.id} value={store.id}>
-              {store.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Select
+        value={selectedStore}
+        options={storeOptions}
+        onChange={val => setSelectedStore(Number(val))}
+        placeholder="매장을 선택해 주세요"
+        className="mt-2 max-w-[320px]"
+      />
 
       <div className="mb-10 flex flex-col gap-2">
         <div className="sm:text-md text-base">사장님께 쓰는 편지</div>
@@ -55,7 +54,7 @@ export default function ReviewWriteForm({ stores }: Props) {
           value={content}
           onChange={e => setContent(e.target.value)}
           placeholder={`진심을 담은 편지로 감사 인사를 전달해보세요!\n실명은 공개되지 않으며, 닉네임으로 전달됩니다.`}
-          className="border-border mt-2 min-h-37.5 rounded-[10px] border bg-white p-4 text-sm whitespace-pre-line outline-none"
+          className="hover:border-main focus:border-main active:border-main mt-2 min-h-37.5 rounded-[10px] border bg-white p-4 text-sm whitespace-pre-line outline-none focus:border-2 sm:text-base"
           maxLength={500}
         />
         <div className="text-text-secondary text-right text-xs">{content.length}/500</div>
