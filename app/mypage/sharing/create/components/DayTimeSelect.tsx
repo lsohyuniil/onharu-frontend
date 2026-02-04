@@ -15,7 +15,7 @@ export function DayTimeSelect({
 }) {
   return (
     <>
-      <Section title="나눔을 원하는 요일이 있나요? (여러개 선택 가능)">
+      <Section title="나눔을 원하는 요일이 있나요? (여러개 선택 가능)" className="mt-2.5 sm:mt-5">
         {DAYS.map(day => (
           <SelectButton
             key={day}
@@ -26,7 +26,7 @@ export function DayTimeSelect({
         ))}
       </Section>
 
-      <Section title="나눔을 원하는 시간이 있나요? (여러개 선택 가능)">
+      <Section title="나눔을 원하는 시간이 있나요? (여러개 선택 가능)" className="mt-2.5 sm:mt-5">
         {TIMES.map(time => (
           <SelectButton
             key={time}

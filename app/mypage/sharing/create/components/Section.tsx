@@ -1,14 +1,18 @@
 export function Section({
   title,
   children,
+  isRequired,
+  className,
 }: {
   title: string;
   children: React.ReactNode;
+  isRequired?: boolean;
+  className?: string;
 }) {
   return (
-    <div>
-      <div className="mt-2.5 mb-1.75 text-sm font-medium sm:mt-5 sm:mb-3.75 sm:text-base">
-        {title}
+    <div className={className}>
+      <div className="sm:text-md mb-1.75 text-base font-medium sm:mb-3.75">
+        {title} {isRequired && <span className="text-danger">*</span>}
       </div>
       <div className="flex flex-wrap gap-1.25 sm:gap-2.5">{children}</div>
     </div>
