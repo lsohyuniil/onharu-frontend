@@ -129,7 +129,12 @@ export default function ChildSignupForm() {
       />
 
       {/* 증명 서류 */}
-      <DocumentUploadField register={register} errors={errors} watch={watch} />
+      <div className="flex flex-col">
+        <div className="sm:text-md mb-1.25 text-base font-medium sm:mb-2.5">
+          증명서류 <span className="text-danger ml-1">*</span>
+        </div>
+        <DocumentUploadField register={register} errors={errors} watch={watch} />
+      </div>
 
       {/* 이용 약관 */}
       <TermsField register={register} errors={errors} />
