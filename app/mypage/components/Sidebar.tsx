@@ -45,9 +45,8 @@ export default function Sidebar({ role }: { role: "owner" | "child" }) {
       <div
         ref={mobileMenuRef}
         className={clsx(
-          "transition-max-height overflow-hidden duration-300 ease-in-out lg:block",
-          mobileMenuOpen ? "max-h-500" : "max-h-0",
-          "lg:max-h-full lg:min-w-70 lg:p-6"
+          "overflow-hidden lg:block lg:max-h-full lg:min-w-70 lg:p-6",
+          mobileMenuOpen ? "max-h-500" : "max-h-0"
         )}
       >
         {/* PC 헤더 */}
