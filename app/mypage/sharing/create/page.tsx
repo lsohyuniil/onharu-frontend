@@ -3,13 +3,15 @@
 import { useState } from "react";
 import { PageSection } from "../../components/PageSection";
 import { Button } from "@/components/ui/Button";
+import useModal from "@/hooks/useModal";
+import { useCalendarSelect } from "@/components/feature/calendar/useCalendarSelect";
+import { useReservationTime } from "@/components/feature/reservation/useReservationTime";
 import { SharingFormHeader } from "./components/SharingFormHeader";
 import { AlwaysProvideToggle } from "./components/AlwaysProvideToggle";
-import { PeriodSelect } from "./components/PeriodSelect";
-import { DayTimeSelect } from "./components/DayTimeSelect";
 import { PeopleCountInput } from "./components/PeopleCountInput";
-import { Modal } from "@/components/ui/Modal";
-import useModal from "@/hooks/useModal";
+import { AlwaysProvideArea } from "./components/AlwaysProvideArea";
+import { SingleReservationArea } from "./components/SingleReservationArea";
+import { SubmissionModal } from "./components/SubmissionModal";
 
 export default function SharingPage() {
   const [content, setContent] = useState("");
@@ -19,43 +21,47 @@ export default function SharingPage() {
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
   const [peopleCount, setPeopleCount] = useState("");
 
+  const { selectedDate, setSelectedDate } = useCalendarSelect();
+  const { selectedTime, handleSelectTime } = useReservationTime({ selectedDate });
+  const { open, handleOpenModal, handleCloseModal } = useModal();
+
   const isFormValid =
     content.trim().length > 0 &&
-    (alwaysProvide || period !== null) &&
-    selectedDays.length > 0 &&
-    selectedTimes.length > 0 &&
-    Number(peopleCount) > 0;
+    Number(peopleCount) > 0 &&
+    (alwaysProvide
+      ? period !== null && selectedDays.length > 0 && selectedTimes.length > 0
+      : selectedDate !== null && selectedTime !== null);
 
   const toggleMultiSelect = (
     value: string,
     list: string[],
     setter: React.Dispatch<React.SetStateAction<string[]>>
-  ) => {
-    setter(list.includes(value) ? list.filter(v => v !== value) : [...list, value]);
-  };
+  ) => setter(list.includes(value) ? list.filter(v => v !== value) : [...list, value]);
 
-  const { open, handleOpenModal, handleCloseModal } = useModal();
-
-  const handleSubmit = () => {
-    const payload = {
-      content,
-      alwaysProvide,
-      period,
-      days: selectedDays,
-      times: selectedTimes,
-      peopleCount: Number(peopleCount),
-    };
-
-    console.log("나눔 등록 데이터", payload);
-
-    handleOpenModal();
-
+  const resetForm = () => {
     setContent("");
     setAlwaysProvide(true);
     setPeriod(null);
     setSelectedDays([]);
     setSelectedTimes([]);
     setPeopleCount("");
+    setSelectedDate(null);
+    handleSelectTime("");
+  };
+
+  const handleSubmit = () => {
+    const payload = {
+      content,
+      alwaysProvide,
+      period,
+      days: alwaysProvide ? selectedDays : selectedDate,
+      times: alwaysProvide ? selectedTimes : selectedTime ? [selectedTime] : [],
+      peopleCount: Number(peopleCount),
+    };
+
+    console.log("나눔 등록 데이터", payload);
+    handleOpenModal();
+    resetForm();
   };
 
   return (
@@ -65,24 +71,25 @@ export default function SharingPage() {
 
         <AlwaysProvideToggle
           alwaysProvide={alwaysProvide}
-          onToggle={() => setAlwaysProvide(v => !v)}
+          onToggle={() => setAlwaysProvide(prev => !prev)}
         />
 
         {alwaysProvide ? (
-          <>
-            <PeriodSelect period={period} onPeriodChange={setPeriod} />
-
-            <DayTimeSelect
-              selectedDays={selectedDays}
-              selectedTimes={selectedTimes}
-              onDayToggle={day => toggleMultiSelect(day, selectedDays, setSelectedDays)}
-              onTimeToggle={time => toggleMultiSelect(time, selectedTimes, setSelectedTimes)}
-            />
-          </>
+          <AlwaysProvideArea
+            period={period}
+            selectedDays={selectedDays}
+            selectedTimes={selectedTimes}
+            onPeriodChange={setPeriod}
+            onDayToggle={day => toggleMultiSelect(day, selectedDays, setSelectedDays)}
+            onTimeToggle={time => toggleMultiSelect(time, selectedTimes, setSelectedTimes)}
+          />
         ) : (
-          <>
-            <div>달력</div>
-          </>
+          <SingleReservationArea
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            selectedTime={selectedTime}
+            handleSelectTime={handleSelectTime}
+          />
         )}
 
         <PeopleCountInput value={peopleCount} onChange={setPeopleCount} />
@@ -107,24 +114,7 @@ export default function SharingPage() {
         </div>
       </div>
 
-      {open && (
-        <Modal onClick={handleOpenModal}>
-          <div className="flex flex-col items-center gap-2 sm:gap-4">
-            <p className="mb-5 text-center font-medium break-keep sm:mb-10 sm:text-lg">
-              나눔 등록이 완료되었습니다.
-            </p>
-            <Button
-              varient="default"
-              width="lg"
-              height="md"
-              fontSize="sm"
-              onClick={handleCloseModal}
-            >
-              확인
-            </Button>
-          </div>
-        </Modal>
-      )}
+      <SubmissionModal open={open} onClose={handleCloseModal} />
     </PageSection>
   );
 }
