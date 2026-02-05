@@ -24,7 +24,9 @@ interface CancelContentProps {
 function CancelContent({ title, description, reason, setReason, onConfirm }: CancelContentProps) {
   return (
     <div>
-      <h3 className="mb-4 text-center font-bold sm:text-2xl">{title}</h3>
+      <h3 className="text-md f-gmks mb-4.25 text-center leading-tight font-bold sm:mb-8.75 md:text-2xl">
+        {title}
+      </h3>
 
       <Input
         label="취소 사유"
@@ -35,7 +37,9 @@ function CancelContent({ title, description, reason, setReason, onConfirm }: Can
         onChange={e => setReason(e.target.value)}
       />
 
-      <div className="mt-2 mb-6 text-xs text-gray-600 sm:mb-12 sm:text-sm">{description}</div>
+      <div className="mt-1.25 mb-12.5 text-xs break-keep sm:mt-2.5 sm:mb-6.25 sm:text-sm">
+        {description}
+      </div>
 
       <Button
         varient="default"
@@ -103,12 +107,12 @@ export default function ReservationModal({
       case "cancelNotAllowed":
         return (
           <div>
-            <h3 className="mb-4 text-center font-bold sm:text-2xl">
+            <h3 className="text-md f-gmks text-center leading-tight font-bold md:text-2xl">
               <p>예약 취소는</p>
               <p>최소 하루 전까지 가능합니다.</p>
             </h3>
 
-            <div className="mt-2 mb-6 flex flex-col items-center text-xs text-gray-600 sm:mb-12 sm:text-sm">
+            <div className="mt-3.25 mb-6.25 flex flex-col items-center text-sm font-medium break-keep sm:mt-6.5 sm:mb-12.5 sm:text-base">
               <p>부득이하게 매장 이용을 하지 못하는 경우</p>
               <p>전화 연락 혹은 채팅을 통해</p>
               <p>사장님께 알려주세요! :{")"}</p>

@@ -37,22 +37,22 @@ export default function ReviewWriteForm({ stores }: Props) {
   };
 
   return (
-    <div className="mb-8 flex flex-col gap-2">
-      <div className="sm:text-md text-base">매장 선택</div>
+    <div className="flex flex-col gap-2 sm:gap-5">
+      <label className="sm:text-md text-base">
+        매장 선택
+        <Select
+          value={selectedStore}
+          options={storeOptions}
+          onChange={val => setSelectedStore(Number(val))}
+          placeholder="매장을 선택해 주세요"
+          className="mt-2.5 max-w-[320px]"
+        />
+      </label>
 
-      <Select
-        value={selectedStore}
-        options={storeOptions}
-        onChange={val => setSelectedStore(Number(val))}
-        placeholder="매장을 선택해 주세요"
-        className="mt-2 max-w-[320px]"
-      />
-
-      <div className="flex flex-col gap-2">
-        <div className="sm:text-md text-base">사장님께 쓰는 편지</div>
-
+      <label className="sm:text-md text-base">
+        사장님께 쓰는 편지
         <Textarea
-          className="w-full"
+          className="mt-3 w-full sm:mt-6"
           name="content"
           value={content}
           onChange={e => setContent(e.target.value)}
@@ -60,9 +60,9 @@ export default function ReviewWriteForm({ stores }: Props) {
           maxLength={500}
           showCount
         />
-      </div>
+      </label>
 
-      <div className="flex justify-center">
+      <div className="mt-5.5 flex justify-center sm:mt-7.5">
         <Button
           varient="default"
           width="md"

@@ -18,11 +18,14 @@ export default function TermsDetailButton({ title, children }: TermsDetailButton
 
       {open && (
         <Modal onClick={handleCloseModal}>
-          <h3 id="modal-title" className="mb-4 text-center text-2xl font-bold">
+          <h3
+            id="modal-title"
+            className="text-md f-gmks text-center leading-tight font-bold md:text-2xl"
+          >
             {title}
           </h3>
 
-          <div className="mb-8 max-h-[60vh] overflow-y-auto rounded-[10px] border p-6 text-sm">
+          <div className="mt-3.5 mb-6.25 max-h-[60vh] overflow-y-auto rounded-[10px] border p-3 text-sm break-keep sm:mt-7 sm:mb-12.5 sm:p-6">
             {children}
           </div>
 
