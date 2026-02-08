@@ -19,6 +19,7 @@ export const MyAddress = ({ mylocation, handleOpenModal }: MyAddressProps) => {
       const loadAddress = await getAddress({ mylocation });
 
       setMyAddress(loadAddress);
+      console.log(loadAddress);
     };
 
     loadAddress();

@@ -1,27 +1,24 @@
+import { loadMap } from "../loadmap";
+
 export async function getAddress({
   mylocation,
 }: {
   mylocation: { lat: number; lng: number };
 }): Promise<string> {
-  return new Promise(resolve => {
-    if (!window.kakao || !window.kakao.maps || !window.kakao.maps.services) {
-      resolve("");
-      return;
-    }
-    const geocoder = new kakao.maps.services.Geocoder();
-    geocoder.coord2Address(mylocation.lng, mylocation.lat, (result, status) => {
-      if (status === kakao.maps.services.Status.OK) {
-        // 주소 정보 설정
+  // SDK 로딩 보장
+  await loadMap();
 
+  return new Promise(resolve => {
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    geocoder.coord2Address(mylocation.lng, mylocation.lat, (result, status) => {
+      if (status === kakao.maps.services.Status.OK && result?.[0]) {
+        const address = result[0].address;
         resolve(
-          result[0].address.region_1depth_name +
-            " " +
-            result[0].address.region_2depth_name +
-            " " +
-            result[0].address.region_3depth_name
+          `${address.region_1depth_name} ${address.region_2depth_name} ${address.region_3depth_name}`
         );
       } else {
-        resolve("");
+        resolve("주소를 찾을 수 없습니다");
       }
     });
   });

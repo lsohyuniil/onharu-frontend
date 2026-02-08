@@ -39,6 +39,7 @@ export const Map = (props: MapProps) => {
   const markersRef = useRef<kakao.maps.Marker[]>([]);
   const overLayRef = useRef<kakao.maps.CustomOverlay[]>([]);
   const activeOverlayRef = useRef<kakao.maps.CustomOverlay | null>(null);
+  const [isMapInitialized, setIsMapInitialized] = useState(false);
   const [mapReady, setMapReady] = useState<boolean>(false);
   const { handleZoomIn, handleZoomOut } = useZoomControl(locationRef);
   const stores = type === "search" ? props.store : null;
@@ -47,12 +48,11 @@ export const Map = (props: MapProps) => {
   const handleMyLocation = type === "search" ? props.handleMyLocation : null;
 
   useEffect(() => {
-    if (!mapRef.current) return;
-
     const mapload = async () => {
       if (!mapRef.current) return;
       const map = await InitMap(mapRef.current);
       locationRef.current = map;
+      setIsMapInitialized(true);
       if (!address || !category) return;
       await getStorePosition(map, address, category);
     };
@@ -65,19 +65,11 @@ export const Map = (props: MapProps) => {
         activeOverlayRef.current = null;
       }
     };
-
-    return () => {
-      // //search 상태 초기화
-      // useLocationStore.getState().setSearchState(false)
-      // //전역 marker 비우기
-      // useLocationStore.getState().clearMarkers()
-      // //내 위치 버튼 위치값 초기화
-      // useTransformStore.getState().setTransform(53)
-    };
   }, []);
 
   useEffect(() => {
     if (props.type !== "search" || !mylocation || !locationRef.current) return;
+
     moveToCurrentLocation(locationRef.current, CurrentOverlayRef, mylocation.lat, mylocation.lng);
     NearbyStoreMarker(
       locationRef.current,
@@ -88,7 +80,7 @@ export const Map = (props: MapProps) => {
       props.handleActiveCard
     );
     setMapReady(true);
-  }, [mylocation]);
+  }, [mylocation, isMapInitialized]);
 
   useEffect(() => {
     if (props.type !== "search" || !locationRef.current || !props.store.length) return;

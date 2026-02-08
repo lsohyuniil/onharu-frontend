@@ -10,6 +10,7 @@ import { SearchNoResult } from "./SearchNoResult";
 import { Navigation } from "@/components/feature/category/Navigation";
 import { cn } from "@/lib/utils";
 import { CategoryName } from "@/components/feature/category/data";
+import { MyAddressSkeleton } from "./MyAddressSkeleton";
 
 interface DesktopViewProps {
   isReady: boolean;
@@ -48,7 +49,8 @@ export function DesktopView({
 }: DesktopViewProps) {
   return (
     <SideMenu isReady={isReady}>
-      <MyAddress mylocation={mylocation} handleOpenModal={onOpenModal} />
+      {!isReady && <MyAddressSkeleton />}
+      {isReady && <MyAddress mylocation={mylocation} handleOpenModal={onOpenModal} />}
 
       {!isReady && <StoreSearchSkeleton />}
       {isReady && <StoreSearch value={inputValue} onChange={onInputChange} onSearch={onSearch} />}
