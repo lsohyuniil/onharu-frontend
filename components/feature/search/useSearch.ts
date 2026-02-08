@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from "react";
+import { Toast } from "../toast/Toast";
 
 export const useSearch = () => {
   const [inputValue, setInputValue] = useState("");
@@ -9,7 +10,9 @@ export const useSearch = () => {
   };
 
   const handleSearch = () => {
-    if (inputValue == "") return;
+    if (inputValue == "") {
+      Toast("warning", "검색에 실패했습니다.", "검색어를 입력해 주세요!");
+    }
     setKeyword(inputValue);
   };
 
