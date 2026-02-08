@@ -19,7 +19,7 @@ export default function ChatRoom({ chat, onBack }: ChatRoomProps) {
     <div className="border-border flex h-[calc(100vh-120px)] w-full flex-col justify-between rounded-[10px] border">
       <ChatHeader sender={chat.sender} onBack={onBack} />
 
-      <div className="px-wrapper flex-1 overflow-y-auto sm:px-7.5">
+      <div className="px-wrapper scrollbar-thin flex-1 overflow-y-auto sm:px-7.5">
         <MessageList messages={messages} />
       </div>
 

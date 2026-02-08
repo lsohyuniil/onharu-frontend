@@ -65,7 +65,7 @@ export default function SharingPage() {
   };
 
   return (
-    <PageSection title="나눔 등록" className="p-4 sm:p-8">
+    <PageSection title="나눔 등록" className="px-4 pt-4 pb-7.5 sm:pt-9 sm:pb-15">
       <div className="mx-auto max-w-125">
         <SharingFormHeader content={content} onContentChange={setContent} storeName="미소치과" />
 

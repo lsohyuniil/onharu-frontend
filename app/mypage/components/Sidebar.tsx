@@ -91,8 +91,10 @@ export default function Sidebar({ role }: { role: "owner" | "child" }) {
                     <Link key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)}>
                       <li
                         className={clsx(
-                          "hover:bg-main-100 ml-6 p-2 font-bold lg:ml-8.25 lg:flex lg:items-center lg:justify-between lg:border-b lg:p-4",
-                          isActive ? "bg-main-200 text-main" : "text-text-secondary"
+                          "ml-6 p-2 font-bold lg:ml-8.25 lg:flex lg:items-center lg:justify-between lg:border-b lg:p-4",
+                          isActive
+                            ? "bg-main-200 text-main"
+                            : "hover:bg-main-100 text-text-secondary"
                         )}
                       >
                         {item.label}

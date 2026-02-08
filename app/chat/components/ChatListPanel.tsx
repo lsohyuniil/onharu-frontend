@@ -11,7 +11,7 @@ interface Props {
 export function ChatListPanel({ name, chatList, selectedChat, onSelectChat }: Props) {
   return (
     <div
-      className={`wrapper md:border-border h-[calc(100vh-120px)] w-full overflow-y-auto md:max-w-133.75 md:rounded-[10px] md:border md:p-7.5 ${
+      className={`scrollbar-thin wrapper md:border-border h-[calc(100vh-120px)] w-full overflow-y-auto md:max-w-133.75 md:rounded-[10px] md:border md:p-7.5 ${
         selectedChat ? "hidden md:block" : ""
       }`}
     >

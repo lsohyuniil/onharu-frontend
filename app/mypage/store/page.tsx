@@ -20,7 +20,7 @@ export default function StorePage() {
   };
 
   return (
-    <PageSection title="가게 등록/수정" className="p-4 sm:p-8">
+    <PageSection title="가게 등록/수정" className="px-4 pt-4 pb-7.5 sm:pt-9 sm:pb-15">
       <StoreForm initialData={initialData} />
     </PageSection>
   );

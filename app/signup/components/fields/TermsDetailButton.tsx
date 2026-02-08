@@ -25,7 +25,7 @@ export default function TermsDetailButton({ title, children }: TermsDetailButton
             {title}
           </h3>
 
-          <div className="mt-3.5 mb-6.25 max-h-[60vh] overflow-y-auto rounded-[10px] border p-3 text-sm break-keep sm:mt-7 sm:mb-12.5 sm:p-6">
+          <div className="scrollbar-thin mt-3.5 mb-6.25 max-h-[60vh] overflow-y-auto rounded-[10px] border p-3 text-sm break-keep sm:mt-7 sm:mb-12.5 sm:p-6">
             {children}
           </div>
 
