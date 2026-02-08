@@ -12,6 +12,7 @@ export async function moveToCurrentLocation(
   try {
     CurrentOverlayRef.current?.setMap(null);
     CurrentOverlayRef.current = null;
+
     const latlng = new window.kakao.maps.LatLng(latitude, longitude);
     map.setCenter(latlng);
 

@@ -17,6 +17,7 @@ import { Modal } from "@/components/ui/Modal";
 import useModal from "@/hooks/useModal";
 import { DesktopView } from "./component/DesktopView";
 import { MobileView } from "./component/MobileView";
+import { Toast } from "@/components/feature/toast/Toast";
 
 export default function Nearby() {
   const [allStores, setAllStores] = useState<NearbyStore[]>([]);
@@ -36,9 +37,19 @@ export default function Nearby() {
   useEffect(() => {
     (async () => {
       const pos = await getCurrentPosition();
-      const { latitude, longitude } = pos.coords;
-      handleMyLocation(latitude, longitude);
-      OriginLocationRef.current = { lat: latitude, lng: longitude };
+      if (!pos) {
+        Toast(
+          "info",
+          "위치 접근을 허용하지 않았습니다.",
+          "위치 변경을 통해 내 주소를 검색해보세요."
+        );
+        handleMyLocation(37.5665, 126.978);
+        OriginLocationRef.current = { lat: 37.5665, lng: 126.978 };
+      } else {
+        const { latitude, longitude } = pos.coords;
+        handleMyLocation(latitude, longitude);
+        OriginLocationRef.current = { lat: latitude, lng: longitude };
+      }
     })();
   }, []);
 

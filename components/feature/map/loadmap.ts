@@ -5,7 +5,7 @@
 
 export function loadMap(): Promise<void> {
   return new Promise(resolve => {
-    if (window.kakao) {
+    if (window.kakao?.maps?.services) {
       resolve();
       return;
     }
@@ -15,7 +15,17 @@ export function loadMap(): Promise<void> {
     script.async = true;
 
     script.onload = () => {
-      window.kakao.maps.load(() => resolve());
+      window.kakao.maps.load(() => {
+        // services가 로드될 때까지 대기
+        const checkServices = () => {
+          if (window.kakao.maps.services) {
+            resolve();
+          } else {
+            setTimeout(checkServices, 50);
+          }
+        };
+        checkServices();
+      });
     };
 
     document.head.appendChild(script);

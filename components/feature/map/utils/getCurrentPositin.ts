@@ -1,12 +1,13 @@
-export function getCurrentPosition(): Promise<GeolocationPosition> {
-  return new Promise((resolve, reject) => {
-    if (!navigator.geolocation) {
-      reject("Geolocation not supported");
-      return;
-    }
+export async function getCurrentPosition(): Promise<GeolocationPosition | null> {
+  if (!navigator.geolocation) return null;
 
-    navigator.geolocation.getCurrentPosition(resolve, reject, {
-      enableHighAccuracy: true,
+  try {
+    return await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+      });
     });
-  });
+  } catch (err) {
+    return null;
+  }
 }
