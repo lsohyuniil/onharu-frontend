@@ -1,10 +1,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 
 export const MobileView = () => {
-  const MobileQuery = useMediaQuery("(max-width: 600px");
   return (
     <>
       <div className="absolute inset-0 flex items-center justify-center px-8">
@@ -14,8 +12,7 @@ export const MobileView = () => {
             animate={{ y: [0, -12, 0] }}
             transition={{ repeat: Infinity, duration: 6 }}
             className={cn(
-              "absolute -top-26 left-[50%] h-32 w-32 -translate-x-[50%]",
-              MobileQuery && "-top-18 h-20 w-20"
+              "mobile:-top-26 mobile:h-32 mobile:w-32 absolute -top-18 left-[50%] h-20 w-20 -translate-x-[50%]"
             )}
           >
             <div className="relative" style={{ aspectRatio: 1 }}>
