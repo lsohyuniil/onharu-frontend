@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import PhoneAuthField from "@/components/feature/PhoneAuthField";
 import { Button } from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
+import { FormField } from "@/components/form-fields/FormField";
+import { FIELD_CONFIG } from "@/components/form-fields/fieldConfig";
 
 type FindIdFormValues = {
   name: string;
@@ -43,13 +44,11 @@ export default function FindIdForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
       {/* 이름 */}
-      <Input
-        label="이름"
-        id="name"
-        placeholder="이름을 입력해 주세요."
-        isRequired
-        register={register("name", { required: "이름은 필수입니다." })}
-        error={errors.name}
+      <FormField<FindIdFormValues>
+        name="name"
+        config={FIELD_CONFIG.name}
+        register={register}
+        errors={errors}
       />
 
       {/* 연락처 인증 */}

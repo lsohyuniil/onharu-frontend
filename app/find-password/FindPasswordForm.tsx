@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
 import EmailAuthField from "@/components/feature/EmailAuthField";
+import { FIELD_CONFIG } from "@/components/form-fields/fieldConfig";
+import { FormField } from "@/components/form-fields/FormField";
 
 type FindPasswordFormValues = {
   name: string;
@@ -44,13 +45,11 @@ export default function FindPasswordForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
       {/* 이름 */}
-      <Input
-        label="이름"
-        id="name"
-        placeholder="이름을 입력해 주세요."
-        isRequired
-        register={register("name", { required: "이름은 필수입니다." })}
-        error={errors.name}
+      <FormField<FindPasswordFormValues>
+        name="name"
+        config={FIELD_CONFIG.name}
+        register={register}
+        errors={errors}
       />
 
       {/* 이메일 */}
@@ -68,20 +67,11 @@ export default function FindPasswordForm() {
       />
 
       {/* 연락처  */}
-      <Input
-        label="연락처"
-        id="phone"
-        type="tel"
-        placeholder="연락처를 입력해 주세요."
-        isRequired
-        register={register("phone", {
-          required: "연락처는 필수입니다.",
-          pattern: {
-            value: /^01[016789]\d{7,8}$/,
-            message: "올바른 전화번호 형식이 아닙니다.",
-          },
-        })}
-        error={errors.phone}
+      <FormField<FindPasswordFormValues>
+        name="phone"
+        config={FIELD_CONFIG.phone}
+        register={register}
+        errors={errors}
       />
 
       <div className="mt-2.5 sm:mt-7.5">

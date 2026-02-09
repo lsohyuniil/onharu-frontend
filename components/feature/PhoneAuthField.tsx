@@ -15,6 +15,8 @@ import {
 } from "react-hook-form";
 import Input from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { FormField } from "../form-fields/FormField";
+import { FIELD_CONFIG } from "../form-fields/fieldConfig";
 
 type PhoneAuthFieldProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
@@ -110,20 +112,11 @@ export default function PhoneAuthField<T extends FieldValues>({
     <>
       <div className="relative flex flex-row">
         <div className="w-78.75">
-          <Input
-            label="연락처"
-            id="phone"
-            type="tel"
-            placeholder="연락처를 입력해 주세요."
-            isRequired
-            register={register(phoneName, {
-              required: "연락처는 필수입니다.",
-              pattern: {
-                value: /^01[0-9]-?\d{3,4}-?\d{4}$/,
-                message: "올바른 전화번호 형식이 아닙니다.",
-              },
-            })}
-            error={get(errors, phoneName) as FieldError | undefined}
+          <FormField<T>
+            name={phoneName}
+            config={FIELD_CONFIG.phone}
+            register={register}
+            errors={errors}
             disabled={isVerified}
           />
         </div>

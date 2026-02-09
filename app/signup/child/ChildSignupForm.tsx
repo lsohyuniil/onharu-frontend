@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Input from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { SignupFormValues } from "@/app/signup/types";
 import DocumentUploadField from "@/components/feature/DocumentUploadField";
 import TermsField from "../components/fields/TermsField";
 import EmailAuthField from "@/components/feature/EmailAuthField";
+import { FormField } from "@/components/form-fields/FormField";
+import { FIELD_CONFIG } from "@/components/form-fields/fieldConfig";
 
 export default function ChildSignupForm() {
   const {
@@ -56,74 +57,43 @@ export default function ChildSignupForm() {
       />
 
       {/* 비밀번호 */}
-      <Input
-        label="비밀번호"
-        id="password"
-        type="password"
-        placeholder="비밀번호를 입력해 주세요."
-        isRequired
-        register={register("password", {
-          required: "비밀번호는 필수입니다.",
-          pattern: {
-            value: /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-            message: "대,소문자 포함 8자 이상 입력해주세요.",
-          },
-        })}
-        error={errors.password}
+      <FormField<SignupFormValues>
+        name="password"
+        config={FIELD_CONFIG.password}
+        register={register}
+        errors={errors}
       />
 
       {/* 비밀번호 확인 */}
-      <Input
-        label="비밀번호 재입력"
-        id="passwordConfirm"
-        type="password"
-        placeholder="비밀번호를 다시 한 번 입력해 주세요."
-        isRequired
-        register={register("passwordConfirm", {
-          required: "비밀번호 확인은 필수입니다.",
-          validate: value => value === passwordValue || "비밀번호가 일치하지 않습니다.",
-        })}
-        error={errors.passwordConfirm}
+      <FormField<SignupFormValues>
+        name="passwordConfirm"
+        config={FIELD_CONFIG.passwordConfirm(passwordValue)}
+        register={register}
+        errors={errors}
       />
 
       {/* 이름 */}
-      <Input
-        label="이름"
-        id="name"
-        placeholder="이름을 입력해 주세요."
-        isRequired
-        register={register("name", { required: "이름은 필수입니다." })}
-        error={errors.name}
+      <FormField<SignupFormValues>
+        name="name"
+        config={FIELD_CONFIG.name}
+        register={register}
+        errors={errors}
       />
 
       {/* 닉네임 */}
-      <Input
-        label="닉네임"
-        id="nickname"
-        placeholder="닉네임을 입력해 주세요."
-        isRequired
-        register={register("nickname", {
-          required: "닉네임은 필수입니다.",
-          minLength: { value: 2, message: "닉네임은 2자 이상 입력해 주세요." },
-        })}
-        error={errors.nickname}
+      <FormField<SignupFormValues>
+        name="nickname"
+        config={FIELD_CONFIG.nickname}
+        register={register}
+        errors={errors}
       />
 
       {/* 연락처 */}
-      <Input
-        label="연락처"
-        id="phone"
-        type="tel"
-        placeholder="연락처를 입력해 주세요."
-        isRequired
-        register={register("phone", {
-          required: "연락처는 필수입니다.",
-          pattern: {
-            value: /^01[016789]\d{7,8}$/,
-            message: "올바른 전화번호 형식이 아닙니다.",
-          },
-        })}
-        error={errors.phone}
+      <FormField<SignupFormValues>
+        name="phone"
+        config={FIELD_CONFIG.phone}
+        register={register}
+        errors={errors}
       />
 
       {/* 증명 서류 */}
