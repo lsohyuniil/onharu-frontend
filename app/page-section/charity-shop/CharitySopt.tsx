@@ -48,7 +48,7 @@ export const CharityShop = () => {
               key={items.id}
               type="charity"
               storeId={items.id}
-              storelink={String(items.storelink)}
+              storelink={String(items.id)}
               storeThumnail={
                 <Thumbnail
                   src={""}

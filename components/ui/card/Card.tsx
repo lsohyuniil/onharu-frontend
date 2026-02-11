@@ -25,7 +25,7 @@ export const Card = (props: CardProps) => {
 
   return (
     <Link
-      href={props.storelink}
+      href={`/charitystore/${props.storelink}`}
       id={props.storeId}
       className={cn(
         "inline-block h-full duration-300 ease-in-out hover:-translate-y-1.5",
