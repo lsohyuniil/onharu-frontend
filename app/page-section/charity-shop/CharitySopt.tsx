@@ -1,7 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { GetStores } from "@/lib/api/GetStores";
-import { SectionTitle } from "../shared/SectionTitle";
 import { CharityShopWrapper } from "./CharityShopWrapper";
 import { Card } from "@/components/ui/card/Card";
 import { Category } from "@/components/ui/card/Category";
@@ -12,8 +11,8 @@ import { CardSkeleton } from "@/components/ui/card/CardSkeleton";
 
 export const CharityShop = () => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["stores"],
-    queryFn: GetStores,
+    queryKey: ["stores", 1, 4],
+    queryFn: () => GetStores(1, 4),
   });
 
   if (isLoading) {
@@ -49,7 +48,7 @@ export const CharityShop = () => {
               key={items.id}
               type="charity"
               storeId={items.id}
-              storelink={String(items.storelink)}
+              storelink={String(items.id)}
               storeThumnail={
                 <Thumbnail
                   src={""}

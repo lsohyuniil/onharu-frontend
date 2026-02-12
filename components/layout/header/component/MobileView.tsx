@@ -77,7 +77,7 @@ export const MobileView = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           <nav className="mt-5">
             <ul>
               {NavItems.filter(items => !items.requireAuth || isLoggedIn).map(items => {
-                const isActive = pathname === items.pathname;
+                const isActive = pathname.includes(items.pathname);
                 return (
                   <button
                     key={items.id}

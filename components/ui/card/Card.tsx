@@ -25,7 +25,7 @@ export const Card = (props: CardProps) => {
 
   return (
     <Link
-      href={props.storelink}
+      href={`/charitystore/${props.storelink}`}
       id={props.storeId}
       className={cn(
         "inline-block h-full duration-300 ease-in-out hover:-translate-y-1.5",
@@ -52,9 +52,7 @@ export const Card = (props: CardProps) => {
             {operating}
           </p>
           {storeAddress}
-          <p className="text-text mt-2 line-clamp-2 text-sm leading-4.75 md:text-base">
-            {props.storeIntroduce}
-          </p>
+          <p className="text-text mt-2 line-clamp-2 text-sm md:text-base">{props.storeIntroduce}</p>
           {(hashtags || reservation) && (
             <div className="mt-3.5 flex items-center gap-1 md:mt-7.5">
               {hashtags}

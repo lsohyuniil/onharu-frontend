@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 export const DesktopView = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const router = useRouter();
   const pathname = usePathname();
+
   return (
     <header className="border border-b-gray-200 bg-white">
       <div className="wrapper m-auto flex w-full items-center justify-between">
@@ -26,7 +27,7 @@ export const DesktopView = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
             <nav>
               <ul className="flex gap-8">
                 {NavItems.filter(items => !items.requireAuth || isLoggedIn).map(items => {
-                  const isActive = pathname === items.pathname;
+                  const isActive = pathname.includes(items.pathname);
                   return (
                     <li key={items.id}>
                       <Link href={items.pathname} className="relative px-3">
