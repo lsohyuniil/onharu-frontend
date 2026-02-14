@@ -50,17 +50,14 @@ export default function CharityStore() {
   });
 
   const stores: CharityMain[] = data?.data?.stores ?? [];
-  const storesLength = data?.totalCount ?? 16;
 
-  //const filterStore = filterByCategory(dummyStores);
+  const filterStore = filterByCategory(stores);
   /**
    * 현재 filter 로직은 카테고리별 정렬만 구현한 상태입니다.
    * 추천순, 인기순, 거리순 관련 정보를 어떻게 표현할지 기능 완성 후 고도화시킬 예정
    * 현재 드롭다운 셀렉트 기능만 구현된 상태
    * **/
   //const paginatedStores = paginate(stores, currentPage, 16);
-
-  //console.log(stores);
 
   return (
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
@@ -95,7 +92,7 @@ export default function CharityStore() {
           )}
           {!isLoading && (
             <>
-              {stores.map(items => (
+              {filterStore.map(items => (
                 <Card
                   key={items.id}
                   type="charity"
@@ -123,7 +120,7 @@ export default function CharityStore() {
         <div className="mt-section-sm-top md:mt-section-lg-top flex justify-center">
           <Pagination
             currentPage={page}
-            totalDataCount={storesLength}
+            totalPage={data?.data?.totalPages}
             handlePageChange={handlePageChange}
           />
         </div>

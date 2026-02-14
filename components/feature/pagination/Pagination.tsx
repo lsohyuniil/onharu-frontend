@@ -11,35 +11,38 @@ import {
 
 interface PaginationProps {
   currentPage: number;
-  totalDataCount: number;
+  totalPage: number;
   handlePageChange: (page: number) => void;
 }
 
-export function Pagination({ currentPage, totalDataCount, handlePageChange }: PaginationProps) {
+export function Pagination({ currentPage, totalPage, handlePageChange }: PaginationProps) {
   /**
-   * @param totalPage 총 페이지 갯수 = 총 데이터갯수 / 한 페이지당 허용 데이터갯수
+   * @param totalPage 총 페이지 갯수
    * @param groupLength 그룹 갯수 = 총 페이지 / 5
    * @param LastGroupHead 마지막 그룹의 첫번째 페이지 넘버
    */
 
-  const totalPage = totalDataCount;
   const groupLength = Math.ceil(totalPage / PAGELIMIT);
   const LastGroupHead = PAGELIMIT * (groupLength - 1);
 
   const pageNumberList = createPageNumberList(currentPage, totalPage);
 
+  //1그룹은 무조건 1,2,3,4,5 ... 현재페이지가 5x(그룹길이 - 1)
+  // 그룹길이가 2일때 2그룹은 6~10 즉, 5x1보다 크고 5x2보다 작음
+  // 그룹길이가 3일때 3그룹은 11~15, 5x2보다 크고 5x3보다 작음
+  // currentpage > 5*(n-1) && currentpage <= 5*n
   return (
     <div className={clsx("flex items-center gap-1")}>
       <button
         className="flex h-7 w-7 items-center justify-center"
-        disabled={currentPage === 1}
+        disabled={currentPage <= 5 * (groupLength - 1)}
         onClick={() => {
           handlePageChange(1);
         }}
       >
         <RiArrowLeftDoubleLine
           size={18}
-          className={currentPage === 1 ? "text-gray-300" : "text-main"}
+          className={currentPage <= 5 * (groupLength - 1) ? "text-gray-300" : "text-main"}
         />
       </button>
 
@@ -88,14 +91,18 @@ export function Pagination({ currentPage, totalDataCount, handlePageChange }: Pa
 
       <button
         className="flex h-7 w-7 items-center justify-center"
-        disabled={currentPage === groupLength}
+        disabled={currentPage > 5 * (groupLength - 1) && currentPage <= 5 * groupLength}
         onClick={() => {
           handlePageChange(LastGroupHead + 1);
         }}
       >
         <RiArrowRightDoubleLine
           size={18}
-          className={currentPage === groupLength ? "text-gray-300" : "text-main"}
+          className={
+            currentPage > 5 * (groupLength - 1) && currentPage <= 5 * groupLength
+              ? "text-gray-300"
+              : "text-main"
+          }
         />
       </button>
     </div>
