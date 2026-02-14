@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import { ReservationBtn } from "./components/ReservationBtn";
 import { ThanksCard } from "./components/thanksCard";
 //data
 import { ThanksData } from "./data/thanksdata";
+import { CategoryData } from "@/components/feature/category/data";
 
 import { DetailSkeleton } from "./components/DetailSkeleton";
 
@@ -39,8 +39,7 @@ export default function Detail() {
 
   const storedetail = data.data.store;
   const isSlide = storedetail.images.length > 4;
-
-  console.log(storedetail);
+  const storeCategory = CategoryData.filter(val => val.id === storedetail.categoryId);
 
   return (
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
@@ -82,7 +81,7 @@ export default function Detail() {
             <p className="lg:text-md text-base">전화번호 : {storedetail.phone}</p>
             <p className="lg:text-md mt-0 text-base md:mt-2">주소 : {storedetail.address}</p>
             <div className="mt-4 h-[150px] w-full md:mt-7 md:h-[200px]">
-              <Map type="detail" address={storedetail.address} category="식당" />
+              <Map type="detail" address={storedetail.address} category={storeCategory[0].name} />
             </div>
           </div>
         </article>

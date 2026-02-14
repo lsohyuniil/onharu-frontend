@@ -39,6 +39,7 @@ export const Map = (props: MapProps) => {
   const markersRef = useRef<kakao.maps.Marker[]>([]);
   const overLayRef = useRef<kakao.maps.CustomOverlay[]>([]);
   const activeOverlayRef = useRef<kakao.maps.CustomOverlay | null>(null);
+  const [addressError, setAddressError] = useState(false);
   const [isMapInitialized, setIsMapInitialized] = useState(false);
   const [mapReady, setMapReady] = useState<boolean>(false);
   const { handleZoomIn, handleZoomOut } = useZoomControl(locationRef);
@@ -53,8 +54,9 @@ export const Map = (props: MapProps) => {
       const map = await InitMap(mapRef.current);
       locationRef.current = map;
       setIsMapInitialized(true);
-      if (!address || !category) return;
-      await getStorePosition(map, address, category);
+      if (!address || !category) return; // type detail에서만 적용됩니다
+      const storePosition = await getStorePosition(map, address, category);
+      setAddressError(storePosition === "ZERO_RESULT");
     };
 
     mapload();
@@ -96,9 +98,18 @@ export const Map = (props: MapProps) => {
     );
   }, [stores]);
 
+  if (addressError) {
+    return (
+      <div className="font-gmarketsans flex h-full w-full items-center justify-center text-4xl">
+        지도에 등록되지 않은 주소입니다.
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="h-full w-full" ref={mapRef} />
+
       {type === "search" && (
         <>
           <MapLoading ready={mapReady} />
