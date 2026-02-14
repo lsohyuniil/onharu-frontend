@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
-  const pageNum = searchParams.get("page") ?? "1";
+  const pageNum = searchParams.get("pageNum") ?? "1";
   const perPage = searchParams.get("perPage") ?? "16";
   const categoryId = searchParams.get("categoryId") ?? "0";
 

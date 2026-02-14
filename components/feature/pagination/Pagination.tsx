@@ -23,7 +23,7 @@ export function Pagination({ totalPage, handlePageChange }: PaginationProps) {
    */
 
   const searchParams = useSearchParams();
-  const page = Number(searchParams.get("page") ?? 1);
+  const page = Number(searchParams.get("pageNum") ?? 1);
 
   const groupLength = Math.ceil(totalPage / PAGELIMIT);
   const LastGroupHead = PAGELIMIT * (groupLength - 1);

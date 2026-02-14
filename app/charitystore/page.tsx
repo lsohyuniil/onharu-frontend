@@ -20,12 +20,12 @@ export default function CharityStore() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const page = Number(searchParams.get("page") ?? 1);
+  const page = Number(searchParams.get("pageNum") ?? 1);
   const categoryId = Number(searchParams.get("categoryId") ?? 0);
 
   const handlePageChange = (nextPage: number) => {
     const params = new URLSearchParams(searchParams);
-    params.set("page", String(nextPage));
+    params.set("pageNum", String(nextPage));
     params.set("categoryId", String(categoryId));
     router.push(`charitystore?${params.toString()}`);
   };
