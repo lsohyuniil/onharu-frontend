@@ -1,5 +1,4 @@
 "use client";
-
 import { useQuery } from "@tanstack/react-query";
 import { GetStores } from "@/lib/api/GetStores";
 import { CharityMain } from "../page-section/charity-shop/data/type";
@@ -8,13 +7,11 @@ import { useSearchParams } from "next/navigation";
 
 import { Navigation } from "@/components/feature/category/Navigation";
 import { BgrDropdown } from "@/components/feature/dropdown/Dropdown";
-import { useCategoryFilter } from "@/components/feature/category/useCategoryFilter";
 import { Card } from "@/components/ui/card/Card";
 import { CardSkeleton } from "@/components/ui/card/CardSkeleton";
 import { Category } from "@/components/ui/card/Category";
 import { HashTag } from "@/components/ui/card/HashTag";
 import { Pagination } from "@/components/feature/pagination/Pagination";
-import { dummyStores } from "./data/data";
 import { useDropdown } from "@/components/feature/dropdown/useDropdown";
 import { SelectData } from "./data/dropdown";
 import { Thumbnail } from "@/components/ui/card/Thumbnail";
@@ -24,12 +21,14 @@ export default function CharityStore() {
   const searchParams = useSearchParams();
 
   const page = Number(searchParams.get("page") ?? 1);
+  const categoryId = Number(searchParams.get("categoryId") ?? 0);
 
   const handlePageChange = (nextPage: number) => {
-    router.push(`/charitystore?page=${nextPage}`);
+    const params = new URLSearchParams(searchParams);
+    params.set("page", String(nextPage));
+    params.set("categoryId", String(categoryId));
+    router.push(`charitystore?${params.toString()}`);
   };
-
-  const { category, setCategory, filterByCategory } = useCategoryFilter();
 
   const {
     open,
@@ -45,14 +44,22 @@ export default function CharityStore() {
   } = useDropdown({ options: SelectData });
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["stores", page, 16],
-    queryFn: () => GetStores(page, 16, "전체"),
+    queryKey: ["stores", page, 16, categoryId],
+    queryFn: () => GetStores(page, 16, categoryId),
   });
 
+  console.log(data);
+
+  const filterByCategory = (value: number) => {
+    //value : 전체,식당,카페...
+    const params = new URLSearchParams(searchParams);
+    params.set("categoryId", String(value));
+    params.set("page", "1");
+    router.push(`charitystore?${params.toString()}`);
+  };
   const stores: CharityMain[] = data?.data?.stores ?? [];
 
   //const filterStore = filterByCategory(stores);
-
   /**
    * 현재 filter 로직은 카테고리별 정렬만 구현한 상태입니다.
    * 추천순, 인기순, 거리순 관련 정보를 어떻게 표현할지 기능 완성 후 고도화시킬 예정
@@ -64,11 +71,7 @@ export default function CharityStore() {
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
       <h2 className="sr-only">나눔 가게 전체 보기</h2>
       <div className="wrapper">
-        <Navigation
-          value={category}
-          onChange={setCategory}
-          InitializePage={() => handlePageChange(1)}
-        />
+        <Navigation onChange={filterByCategory} />
         <BgrDropdown
           options={SelectData}
           open={open}

@@ -1,8 +1,6 @@
-import { CategoryName } from "@/components/feature/category/data";
-
-export async function GetStores(pageNum: number, perPage: number, categoryName: CategoryName) {
+export async function GetStores(pageNum: number, perPage: number, categoryId: number) {
   const res = await fetch(
-    `/api/stores?pageNum=${pageNum}&perPage=${perPage}&categoryName=${categoryName}`
+    `/api/stores?pageNum=${pageNum}&perPage=${perPage}&categoryId=${categoryId}`
   );
 
   if (!res.ok) {
