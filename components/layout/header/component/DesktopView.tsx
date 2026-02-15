@@ -88,7 +88,7 @@ export const DesktopView = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
               width="sm"
               height="md"
               fontSize="md"
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/login")}
             >
               로그인
             </Button>
