@@ -1,25 +1,26 @@
 import { SideMenu } from "./SideMenu";
 import { MyAddress } from "./MyAddress";
-import { StoreSearchSkeleton } from "./StoreSearchSkeleton";
 import { StoreSearch } from "./StoreSearch";
+import { StoreSearchSkeleton } from "./StoreSearchSkeleton";
 import { DevideBar } from "./DevideBar";
 import { CardSkeleton } from "@/components/ui/card/CardSkeleton";
 import { StoreCardList } from "./StoreCardList";
 import { SearchNoResult } from "./SearchNoResult";
 import { Navigation } from "@/components/feature/category/Navigation";
 import { cn } from "@/lib/utils";
+import { CharityMain } from "@/types/store/type";
 
 interface DesktopViewProps {
   isReady: boolean;
   mylocation: { lat: number | null; lng: number | null };
   inputValue: string;
-  stores: any;
+  stores: CharityMain[];
   activeId: string;
   cardRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
   onOpenModal: () => void;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: (value: string) => void;
-  onCategoryChange: (value: any) => void;
+  onCategoryChange: (value: number) => void;
   onReservation: (e: MouseEvent) => void;
   isCategoryQuery: boolean | null;
   isSidemenuQuery: boolean | null;

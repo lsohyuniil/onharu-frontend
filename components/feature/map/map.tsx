@@ -9,6 +9,7 @@ import { NearbyStoreMarker } from "./utils/NearByStoreMarker";
 import { CategoryName } from "../category/data";
 import { useZoomControl } from "./hooks/useZoomControl";
 import { MyLocation } from "./MyLocation";
+import { CharityMain } from "@/types/store/type";
 
 interface BaseMapProps {
   address?: string | null;
@@ -21,7 +22,7 @@ interface DetailMapProps extends BaseMapProps {
 
 interface SearchMapProps extends BaseMapProps {
   type: "search";
-  store: any;
+  store: CharityMain[];
   handleMyLocation: (lat: number | null, lng: number | null) => void;
   OriginLocationRef: RefObject<{ lat: number | null; lng: number | null }>;
   mylocation: { lat: number | null; lng: number | null };

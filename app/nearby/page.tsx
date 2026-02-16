@@ -1,12 +1,9 @@
 "use client";
-import { LocationSearch } from "./component";
-import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { GetStores } from "@/lib/api/GetStores";
 import { CharityMain } from "@/types/store/type";
 
-import { useSearchParams } from "next/navigation";
-
+import { LocationSearch } from "./component";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Map } from "@/components/feature/map/map";
 import { useSearch } from "@/components/feature/search/useSearch";

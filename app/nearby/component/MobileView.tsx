@@ -1,7 +1,6 @@
-import { NearbyStore } from "../type/type";
 import { StoreSearch } from "./StoreSearch";
 import { Navigation } from "@/components/feature/category/Navigation";
-import { CategoryName } from "@/components/feature/category/data";
+import { CharityMain } from "@/types/store/type";
 import { BottomSheet } from "@/components/feature/bottomsheet/Bottomsheet";
 import { MyAddress } from "./MyAddress";
 import { StoreCardList } from "./StoreCardList";
@@ -10,13 +9,13 @@ interface MobileViewProps {
   isReady: boolean;
   mylocation: { lat: number | null; lng: number | null };
   inputValue: string;
-  stores: any;
+  stores: CharityMain[];
   activeId: string;
   cardRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
   onOpenModal: () => void;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: (value: string) => void;
-  onCategoryChange: (value: any) => void;
+  onCategoryChange: (value: number) => void;
   onReservation: (e: MouseEvent) => void;
 }
 
