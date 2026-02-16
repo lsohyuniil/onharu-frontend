@@ -17,12 +17,11 @@ import { Thumbnail } from "@/components/ui/card/Thumbnail";
 import { useStoreFilter } from "@/hooks/store/useStoreFilter";
 
 export default function CharityStore() {
-  const { filters, isLocationReady, handlePageChange, handleCategoryCahnge, handleSortChange } =
-    useStoreFilter({
-      pathname: "charitystore",
-      sort: "favoriteCount",
-      direction: "desc",
-    });
+  const { filters, handlePageChange, handleCategoryCahnge, handleSortChange } = useStoreFilter({
+    pathname: "charitystore",
+    sort: "favoriteCount",
+    direction: "desc",
+  });
 
   const {
     open,

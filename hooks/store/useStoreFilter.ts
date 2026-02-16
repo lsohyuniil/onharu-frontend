@@ -1,6 +1,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { getCurrentPosition } from "@/components/feature/map/utils/getCurrentPositin";
+import { SortValue, SrotDirection } from "@/components/feature/dropdown/data/DropdownData";
 import { Toast } from "@/components/feature/toast/Toast";
 
 export const useStoreFilter = ({
@@ -9,8 +10,8 @@ export const useStoreFilter = ({
   direction,
 }: {
   pathname: string;
-  sort: string;
-  direction: string;
+  sort: SortValue;
+  direction: SrotDirection;
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();

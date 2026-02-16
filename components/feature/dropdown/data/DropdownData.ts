@@ -14,4 +14,13 @@ export const SelectData = [
     direction: "asc",
     label: "이름순",
   },
-];
+  {
+    value: "distance",
+    direction: "asc",
+    label: "거리순",
+  },
+] as const;
+
+export type SortValue = (typeof SelectData)[number]["value"];
+export type SrotDirection = (typeof SelectData)[number]["direction"];
+export type SortLabel = (typeof SelectData)[number]["label"];
