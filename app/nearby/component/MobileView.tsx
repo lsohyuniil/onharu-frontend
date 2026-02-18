@@ -4,9 +4,11 @@ import { CharityMain } from "@/types/store/type";
 import { BottomSheet } from "@/components/feature/bottomsheet/Bottomsheet";
 import { MyAddress } from "./MyAddress";
 import { StoreCardList } from "./StoreCardList";
+import { SearchNoResult } from "./SearchNoResult";
 
 interface MobileViewProps {
   isReady: boolean;
+  error: Error | null;
   mylocation: { lat: number | null; lng: number | null };
   inputValue: string;
   stores: CharityMain[];
@@ -21,6 +23,7 @@ interface MobileViewProps {
 
 export function MobileView({
   isReady,
+  error,
   mylocation,
   inputValue,
   stores,
@@ -32,8 +35,6 @@ export function MobileView({
   onCategoryChange,
   onReservation,
 }: MobileViewProps) {
-  if (!isReady) return null;
-
   return (
     <>
       <div className="fixed top-16 left-[50%] z-50 w-full -translate-x-[50%]">
@@ -55,6 +56,8 @@ export function MobileView({
               onReservation={onReservation}
             />
           )}
+          {stores.length === 0 && <SearchNoResult />}
+          {error && <>데이터를 읽을 수 없습니다.</>}
         </div>
       </BottomSheet>
     </>

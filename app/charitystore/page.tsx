@@ -38,14 +38,13 @@ export default function CharityStore() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["stores", filters],
-    queryFn: () => GetStores(filters),
+    queryFn: ({ signal }) => GetStores(filters, signal),
+    staleTime: 1000 * 60,
     placeholderData: previousData => previousData,
   });
 
   const stores: CharityMain[] = data?.data?.stores ?? [];
   const storeLength = data?.data?.totalCount;
-
-  console.log(stores);
 
   return (
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">

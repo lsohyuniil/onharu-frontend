@@ -40,7 +40,8 @@ export default function Nearby() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["stores", filters],
-    queryFn: () => GetStores(filters),
+    queryFn: ({ signal }) => GetStores(filters, signal),
+    staleTime: 1000 * 60,
     enabled: isLocationReady,
     placeholderData: previousData => previousData,
   });
@@ -56,6 +57,7 @@ export default function Nearby() {
 
   const commonProps = {
     isReady,
+    error,
     mylocation,
     inputValue,
     stores,

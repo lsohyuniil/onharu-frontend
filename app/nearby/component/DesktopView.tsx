@@ -12,6 +12,7 @@ import { CharityMain } from "@/types/store/type";
 
 interface DesktopViewProps {
   isReady: boolean;
+  error: Error | null;
   mylocation: { lat: number | null; lng: number | null };
   inputValue: string;
   stores: CharityMain[];
@@ -28,6 +29,7 @@ interface DesktopViewProps {
 
 export function DesktopView({
   isReady,
+  error,
   mylocation,
   inputValue,
   stores,
@@ -61,6 +63,7 @@ export function DesktopView({
           />
         )}
         {isReady && stores.length === 0 && <SearchNoResult />}
+        {isReady && error && <>데이터를 읽을 수 없습니다.</>}
       </div>
 
       <div

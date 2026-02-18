@@ -1,4 +1,4 @@
-export async function GetStores(filters: any) {
+export async function GetStores(filters: any, signal?: AbortSignal) {
   const params = new URLSearchParams();
 
   Object.entries(filters).forEach(([key, value]) => {
@@ -10,6 +10,7 @@ export async function GetStores(filters: any) {
 
   const res = await fetch(`/api/stores?${params.toString()}`, {
     credentials: "include",
+    signal,
   });
 
   if (!res.ok) {
