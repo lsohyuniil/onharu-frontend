@@ -23,6 +23,7 @@ export default function Detail() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["stores", storeId],
     queryFn: () => GetStoreDetail(storeId),
+    staleTime: 1000 * 60,
   });
 
   if (isLoading) {
@@ -33,8 +34,16 @@ export default function Detail() {
     );
   }
 
-  if (error) {
-    return <>데이터를 불러올 수 없습니다.</>;
+  if (!isLoading && error) {
+    return (
+      <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
+        <div className="wrapper">
+          <p className="font-gmarketsans text-center text-xl">
+            일시적으로 데이터를 불러올 수 없습니다.
+          </p>
+        </div>
+      </section>
+    );
   }
 
   const storedetail = data.data.store;
@@ -46,7 +55,7 @@ export default function Detail() {
       <div className="wrapper">
         <article>
           <Heading title={storedetail.name}>
-            <Like isLiked />
+            <Like isLiked={false} />
           </Heading>
           <div className="relative mt-5 h-[110px] md:mt-8 md:h-[340px]">
             <h3 className="sr-only">매장 내부, 음식 사진이 슬라이드 형태로 나열되어 있습니다.</h3>
