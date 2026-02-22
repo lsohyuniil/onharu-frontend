@@ -9,7 +9,7 @@ interface StoreCardListProps {
   stores: CharityMain[];
   activeId: string;
   cardRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
-  onReservation: (e: MouseEvent) => void;
+  onReservation: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export function StoreCardList({ stores, activeId, cardRefs, onReservation }: StoreCardListProps) {

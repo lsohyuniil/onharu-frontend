@@ -22,7 +22,7 @@ interface DesktopViewProps {
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: (value: string) => void;
   onCategoryChange: (value: number) => void;
-  onReservation: (e: MouseEvent) => void;
+  onReservation: React.MouseEventHandler<HTMLButtonElement>;
   isCategoryQuery: boolean | null;
   isSidemenuQuery: boolean | null;
 }
