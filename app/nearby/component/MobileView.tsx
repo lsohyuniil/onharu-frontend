@@ -18,7 +18,7 @@ interface MobileViewProps {
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: (value: string) => void;
   onCategoryChange: (value: number) => void;
-  onReservation: (e: MouseEvent) => void;
+  onReservation: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export function MobileView({
