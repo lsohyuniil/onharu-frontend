@@ -64,6 +64,10 @@ export default function FindPasswordForm() {
         codeName="authCode"
         onVerifiedChange={setIsEmailVerified}
         onCodeSentChange={setIsCodeSent}
+        isVerified={isEmailVerified}
+        setIsVerified={setIsEmailVerified}
+        isCodeSent={isCodeSent}
+        setIsCodeSent={setIsCodeSent}
       />
 
       {/* 연락처  */}
