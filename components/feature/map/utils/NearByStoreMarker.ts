@@ -26,7 +26,7 @@ export function NearbyStoreMarker(
       <div class="customoverlay">
         <div>
           <p class="store_name">${store.name}</p>
-          <p class="sharing">${store.hasSharing ? "나눔중" : "나눔 준비중"}</p>
+          <p class="sharing">${store.isSharing ? "나눔중" : "나눔 준비중"}</p>
             <button class="close_btn" onclick="handleOverlayClose()">
             </button>
           <div class="arrow"></div>
