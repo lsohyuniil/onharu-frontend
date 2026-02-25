@@ -72,7 +72,7 @@ export class ServerApiClient {
       const message = errorData?.message || errorData?.error || res.statusText || "Unknown error";
 
       return {
-        ok: false,
+        success: false,
         error: {
           message,
           status: res.status,
@@ -82,7 +82,7 @@ export class ServerApiClient {
     }
 
     return {
-      ok: true,
+      success: true,
       data: data as T,
       headers: res.headers,
     };
