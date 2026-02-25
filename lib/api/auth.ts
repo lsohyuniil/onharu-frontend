@@ -9,6 +9,7 @@ import {
   SignupOwnerRequest,
   SignupOwnerResponse,
 } from "./types/auth";
+import { ChildData, OwnerData } from "./types/auth";
 
 export const login = (body: LoginRequest) =>
   apiClient.post<LoginResponse, LoginRequest>("/users/login", body);
@@ -25,4 +26,12 @@ export const signupChild = (body: SignupChildRequest): Promise<SignupChildRespon
 
 export const signupOwner = (body: SignupOwnerRequest): Promise<SignupOwnerResponse> => {
   return apiClient.post<SignupOwnerResponse, SignupOwnerRequest>("/users/signup/owner", body);
+};
+
+export const getChildProfile = (): Promise<ChildData> => {
+  return apiClient.get<ChildData>("/users/profile/child");
+};
+
+export const getOwnerProfile = (): Promise<OwnerData> => {
+  return apiClient.get<OwnerData>("/users/profile/owner");
 };
