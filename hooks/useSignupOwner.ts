@@ -2,12 +2,12 @@
 
 import { SignupFormValues } from "@/app/signup/types";
 import { signupOwner } from "@/lib/api/auth";
-import { SignupOwnerResponse } from "@/lib/api/types/auth";
-import { ApiError } from "@/lib/api/types/common";
+import { SignupRes } from "@/lib/api/types/auth";
+import { ApiError, SuccessResponse } from "@/lib/api/types/common";
 import { useMutation } from "@tanstack/react-query";
 
 export const useSignupOwner = () => {
-  return useMutation<SignupOwnerResponse, ApiError, { formData: SignupFormValues }>({
+  return useMutation<SuccessResponse<SignupRes>, ApiError, { formData: SignupFormValues }>({
     mutationFn: async ({ formData }) => {
       return signupOwner({
         loginId: formData.email,

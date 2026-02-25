@@ -1,9 +1,32 @@
-import { handleApiResult } from "@/lib/api/handleApiResult";
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { serverApiClient } from "@/lib/api/serverApiClient";
-import { MeResponse } from "@/lib/api/types/auth";
+import { SuccessResponse } from "@/lib/api/types/common";
+import { UserMeReq } from "@/lib/api/types/auth";
 
 export async function GET() {
-  const result = await serverApiClient.get<MeResponse>("/api/users/me");
+  const cookieStore = await cookies();
 
-  return handleApiResult(result);
+  const hasSession = cookieStore.has("JSESSIONID");
+
+  if (!hasSession) {
+    return NextResponse.json({ success: false, isAuthenticated: false, data: null });
+  }
+
+  const result = await serverApiClient.get<SuccessResponse<UserMeReq>>("/api/users/me");
+
+  if (!result.success) {
+    return NextResponse.json({
+      success: false,
+      isAuthenticated: false,
+      data: null,
+    });
+  }
+  const { success, data } = result.data;
+
+  return NextResponse.json({
+    success,
+    isAuthenticated: true,
+    data,
+  });
 }

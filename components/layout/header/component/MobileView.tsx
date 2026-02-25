@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { NavItems } from "../data";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { RiMenu3Line, RiNotification3Line, RiCloseLine } from "@remixicon/react";
 import { useLogout } from "@/hooks/useLogout";
-import Link from "next/link";
+import { RiMenu3Line, RiNotification3Line, RiCloseLine } from "@remixicon/react";
 
 export const MobileView = ({
   isLoggedIn,
@@ -36,7 +36,7 @@ export const MobileView = ({
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-100 border-b border-b-gray-200 bg-white">
+    <header className="fixed top-0 z-100 w-full border-b border-b-gray-200 bg-white">
       <div className="wrapper relative">
         <Link href={"/"}>
           <h1 className="relative m-auto h-12.5 w-20">
@@ -65,7 +65,10 @@ export const MobileView = ({
           {isLoggedIn && (
             <button
               className="absolute top-3.5 right-11"
-              onClick={() => router.push("/mypage/notifications")}
+              onClick={() => {
+                router.push("/mypage/notifications");
+                setOpen(false);
+              }}
             >
               <span className="relative">
                 <RiNotification3Line size={20} />
@@ -123,7 +126,10 @@ export const MobileView = ({
                 width="sm"
                 height="md"
                 fontSize="md"
-                onClick={() => router.push("/mypage")}
+                onClick={() => {
+                  router.push("/mypage");
+                  setOpen(false);
+                }}
               >
                 마이페이지
               </Button>
@@ -132,7 +138,10 @@ export const MobileView = ({
                 width="sm"
                 height="md"
                 fontSize="md"
-                onClick={() => logout()}
+                onClick={() => {
+                  logout();
+                  setOpen(false);
+                }}
               >
                 로그아웃
               </Button>
@@ -144,7 +153,10 @@ export const MobileView = ({
               width="sm"
               height="md"
               fontSize="md"
-              onClick={() => router.push("/login")}
+              onClick={() => {
+                router.push("/login");
+                setOpen(false);
+              }}
             >
               로그인
             </Button>
