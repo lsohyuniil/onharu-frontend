@@ -17,3 +17,12 @@ export const getChildReservations = (
     `/childrens/reservations?${query}`
   );
 };
+
+export const childReservationCancel = (
+  reservationId: string,
+  cancelReason: string
+): Promise<ApiResponse<null>> => {
+  return apiClient.post<ApiResponse<null>>(`/childrens/reservations/${reservationId}/cancel`, {
+    cancelReason,
+  });
+};
