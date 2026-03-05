@@ -10,31 +10,39 @@ import { Map } from "@/components/feature/map/map";
 import { Reservation } from "./components/reservation";
 import { ReservationBtn } from "./components/ReservationBtn";
 import { ThanksCard } from "./components/thanksCard";
-//data
+import { GetReviewDetail } from "@/lib/api/GetReviewDetail";
 import { ThanksData } from "./data/thanksdata";
 import { CategoryData } from "@/components/feature/category/data";
-
 import { DetailSkeleton } from "./components/DetailSkeleton";
+import Skeleton from "react-loading-skeleton";
 
 export default function Detail() {
   const params = useParams();
   const storeId = params.id as string;
 
-  const { data, error, isLoading } = useQuery({
+  const {
+    data: storeData,
+    error: storeError,
+    isLoading: storeLoading,
+  } = useQuery({
     queryKey: ["stores", storeId],
     queryFn: () => GetStoreDetail(storeId),
     staleTime: 1000 * 60,
   });
 
-  if (isLoading) {
-    return (
-      <>
-        <DetailSkeleton />
-      </>
-    );
-  }
+  const { data: reviewData, isLoading: reviewLoading } = useQuery({
+    queryKey: ["reviews", storeId],
+    queryFn: () => GetReviewDetail(storeId),
+    staleTime: 1000 * 60,
+    retry: false, // 실패 시 재시도 x
+    throwOnError: false, // 에러를 상위로 전파하지 않음
+  });
 
-  if (!isLoading && error) {
+  // 스토어 로딩 중
+  if (storeLoading) return <DetailSkeleton />;
+
+  // 스토어 데이터 로딩 실패 시에만 전체 에러 처리
+  if (storeError) {
     return (
       <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
         <div className="wrapper">
@@ -46,9 +54,12 @@ export default function Detail() {
     );
   }
 
-  const storedetail = data.data.store;
+  const storedetail = storeData.data.store;
   const isSlide = storedetail.images.length > 4;
   const storeCategory = CategoryData.filter(val => val.id === storedetail.categoryId);
+
+  // 리뷰는 실패해도 빈 배열로 fallback
+  const storereview = reviewData?.data.reviews ?? [];
 
   return (
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
@@ -58,7 +69,20 @@ export default function Detail() {
             <Like isLiked={false} />
           </Heading>
           <div className="relative mt-5 h-[110px] md:mt-8 md:h-[340px]">
-            <h3 className="sr-only">매장 내부, 음식 사진이 슬라이드 형태로 나열되어 있습니다.</h3>
+            <h3 className="sr-only">매장 내부, 음식 사진이 나열되어 있습니다.</h3>
+            {storedetail.images.length === 0 && (
+              <div className="flex h-full gap-3 md:gap-5">
+                <div className="relative flex-1 bg-[#eeeeee]">
+                  <Image
+                    src={"/image/page/no-image.svg"}
+                    alt=""
+                    fill
+                    style={{ objectFit: "contain" }}
+                    className="pointer-events-none"
+                  />
+                </div>
+              </div>
+            )}
             {isSlide && <FramerSlide data={storedetail.images} />}
             {!isSlide && (
               <div className="flex h-full gap-3 md:gap-5">
@@ -102,7 +126,10 @@ export default function Detail() {
             <p>{storedetail.introduction}</p>
           </div>
         </article>
-        {ThanksData && (
+
+        {/* 리뷰 섹션 - 로딩 중이거나 데이터 있을 때만 렌더 */}
+        {reviewLoading && <Skeleton />}
+        {!reviewLoading && storereview.length > 0 && (
           <article className="mt-15 md:mt-21">
             <Heading title="감사 후기" />
             <div className="mt-3 md:mt-8">
