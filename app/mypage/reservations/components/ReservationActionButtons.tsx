@@ -1,14 +1,20 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { CancelModalType, ReservationStatus } from "../types";
+import { CancelModalType } from "../types";
 import useModal from "@/hooks/ui/useModal";
 import ReservationModal from "./ReservationModal";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { UserRole } from "@/lib/api/types/auth";
+import { ReservationStatus } from "@/lib/api/types/reservation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { childReservationCancel } from "@/lib/api/childrens";
+import { changeOwnerReservationStatus } from "@/lib/api/owners";
+import { Toast } from "@/components/feature/toast/Toast";
 
 interface Props {
-  role: "child" | "owner";
+  role: UserRole;
   status: ReservationStatus;
   reservationId: number;
   reservationDate: string;
@@ -16,26 +22,32 @@ interface Props {
 
 // 취소 가능 여부 계산
 function getCancelModalType(
-  role: "child" | "owner",
-  reservationDate: string
+  role: "CHILD" | "OWNER",
+  reservationAt: string
 ): "cancelChild" | "cancelOwner" | "cancelNotAllowed" {
-  if (role === "child") {
-    const today = new Date();
-    const parts = reservationDate.match(/(\d+)년 (\d+)월 (\d+)일/);
-    if (!parts) return "cancelNotAllowed";
-
-    const resDate = new Date(
-      parseInt(parts[1], 10),
-      parseInt(parts[2], 10) - 1,
-      parseInt(parts[3], 10)
-    );
-
-    const diff = resDate.getTime() - today.getTime();
+  if (role === "CHILD") {
+    const resDate = new Date(reservationAt);
+    const diff = resDate.getTime() - Date.now();
     return diff < 24 * 60 * 60 * 1000 ? "cancelNotAllowed" : "cancelChild";
   }
 
   return "cancelOwner";
 }
+
+const ACTION_TOAST: Partial<Record<ReservationStatus, { title: string; description: string }>> = {
+  CONFIRMED: {
+    title: "예약 확정",
+    description: "예약이 확정되었습니다.",
+  },
+  COMPLETED: {
+    title: "나눔 완료",
+    description: "나눔이 완료 처리되었습니다.",
+  },
+  CANCELED: {
+    title: "예약 취소",
+    description: "예약이 취소되었습니다.",
+  },
+};
 
 export default function ReservationActionButtons({
   role,
@@ -49,13 +61,70 @@ export default function ReservationActionButtons({
 
   const { open, handleOpenModal, handleCloseModal } = useModal();
 
+  const queryClient = useQueryClient();
+
+  const isChild = role === "CHILD";
+  const isOwner = role === "OWNER";
+
+  const isWaiting = status === "WAITING";
+  const isConfirmed = status === "CONFIRMED";
+  const isCompleted = status === "COMPLETED";
+
+  // mutations
+  const cancelChildMutation = useMutation({
+    mutationFn: ({ id, reason }: { id: string; reason: string }) =>
+      childReservationCancel(id, reason),
+  });
+
+  const approveMutation = useMutation({
+    mutationFn: (id: string) => changeOwnerReservationStatus(id, "approve"),
+  });
+
+  const rejectMutation = useMutation({
+    mutationFn: ({ id, reason }: { id: string; reason: string }) =>
+      changeOwnerReservationStatus(id, "cancel", { cancelReason: reason }),
+  });
+
+  const completeMutation = useMutation({
+    mutationFn: (id: string) => changeOwnerReservationStatus(id, "complete"),
+  });
+
   // 예약 상태 업데이트
   const updateReservationStatus = async (newStatus: ReservationStatus, reason?: string) => {
     try {
-      console.log(reservationId, newStatus, reason);
+      const id = String(reservationId);
+
+      // 아동
+      if (isChild && newStatus === "CANCELED" && reason) {
+        await cancelChildMutation.mutateAsync({ id, reason });
+      }
+
+      // 가게
+      if (isOwner) {
+        if (newStatus === "CONFIRMED") {
+          await approveMutation.mutateAsync(id);
+        }
+
+        if (newStatus === "CANCELED" && reason) {
+          await rejectMutation.mutateAsync({ id, reason });
+        }
+
+        if (newStatus === "COMPLETED") {
+          await completeMutation.mutateAsync(id);
+        }
+      }
+
+      const toast = ACTION_TOAST[newStatus];
+
+      if (toast) {
+        Toast("info", toast.title, toast.description);
+      }
+
+      await queryClient.invalidateQueries({
+        queryKey: ["reservations"],
+      });
 
       handleCloseModal();
-      router.refresh();
     } catch (err) {
       console.error(err);
     }
@@ -72,13 +141,13 @@ export default function ReservationActionButtons({
     }
   };
 
-  const handleImmediateAction = (type: "CONFIRMED" | "SHARE_DONE") => {
+  const handleImmediateAction = (type: "CONFIRMED" | "COMPLETED") => {
     updateReservationStatus(type);
   };
 
   return (
     <>
-      {role === "child" && status === "COMPLETED" && (
+      {isChild && isCompleted && (
         <Button
           varient="default"
           width="lg"
@@ -90,30 +159,31 @@ export default function ReservationActionButtons({
         </Button>
       )}
 
-      {role === "child" && (status === "CONFIRMED" || status === "PENDING") && (
+      {isChild && (isConfirmed || isWaiting) && (
         <Button varient="dark" width="lg" height="sm" fontSize="sm" onClick={handleCancelClick}>
           예약 취소
         </Button>
       )}
 
-      {role === "owner" && status === "CONFIRMED" && (
+      {isOwner && isConfirmed && (
         <>
           <Button
             varient="default"
             width="lg"
             height="sm"
             fontSize="sm"
-            onClick={() => handleImmediateAction("SHARE_DONE")}
+            onClick={() => handleImmediateAction("COMPLETED")}
           >
             나눔 완료
           </Button>
+
           <Button varient="dark" width="lg" height="sm" fontSize="sm" onClick={handleCancelClick}>
             예약 취소
           </Button>
         </>
       )}
 
-      {role === "owner" && status === "PENDING" && (
+      {isOwner && isWaiting && (
         <>
           <Button
             varient="default"
@@ -124,6 +194,7 @@ export default function ReservationActionButtons({
           >
             예약 확정
           </Button>
+
           <Button varient="dark" width="lg" height="sm" fontSize="sm" onClick={handleCancelClick}>
             예약 취소
           </Button>
