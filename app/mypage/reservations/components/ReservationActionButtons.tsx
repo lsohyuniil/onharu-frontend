@@ -15,7 +15,7 @@ import { Toast } from "@/components/feature/toast/Toast";
 
 interface Props {
   role: UserRole;
-  status: "ALL" | ReservationStatus;
+  status: ReservationStatus;
   reservationId: number;
   reservationDate: string;
 }
