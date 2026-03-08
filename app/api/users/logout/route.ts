@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { serverApiClient } from "@/lib/api/serverApiClient";
 
 export async function POST() {
-  const result = await serverApiClient.post("/api/users/logout", undefined);
+  const result = await serverApiClient.post("/api/users/logout");
 
   if (!result.success) {
     return NextResponse.json(
@@ -18,12 +18,8 @@ export async function POST() {
 
   const response = NextResponse.json(result.data);
 
-  response.cookies.set("JSESSIONID", "", {
-    path: "/",
-    maxAge: 0,
-    httpOnly: true,
-    sameSite: "lax",
-  });
+  const cookiesToDelete = ["JSESSIONID", "userType", "storeId"];
+  cookiesToDelete.forEach(cookie => response.cookies.set(cookie, "", { path: "/", maxAge: 0 }));
 
   return response;
 }
