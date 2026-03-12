@@ -17,6 +17,7 @@ interface InputProps {
   isVerified?: boolean;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export default function Input({
@@ -31,6 +32,7 @@ export default function Input({
   isVerified = false,
   value,
   onChange,
+  onKeyDown,
 }: InputProps) {
   const hasError = Boolean(error);
 
@@ -61,6 +63,7 @@ export default function Input({
         aria-invalid={hasError}
         aria-describedby={describedBy}
         {...inputProps}
+        onKeyDown={onKeyDown}
         className={clsx(
           "border-border placeholder:text-subtle h-11.25 rounded-[10px] border px-2.5 text-sm transition-all duration-150 ease-in-out outline-none sm:text-base",
           disabled
