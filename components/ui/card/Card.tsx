@@ -46,8 +46,7 @@ export const Card = (props: CardProps) => {
         </div>
         <div className="relative flex-1 bg-white p-2.5 md:p-4">
           <div className="absolute top-2 right-5 z-5">
-            <LikeButton storeId={Number(props.storeId)} isLiked></LikeButton>
-            <Like isLiked={false} />
+            <LikeButton storeId={Number(props.storeId)} isLiked />
           </div>
           <p className="md:text-md flex items-center gap-2 pr-6 text-base font-bold">
             <span className="line-clamp-1">{props.storename}</span>
