@@ -11,10 +11,10 @@ import { Reservation } from "./components/reservation";
 import { ReservationBtn } from "./components/ReservationBtn";
 import { ThanksCard } from "./components/thanksCard";
 import { GetReviewDetail } from "@/lib/api/GetReviewDetail";
-import { ThanksData } from "./data/thanksdata";
 import { CategoryData } from "@/components/feature/category/data";
 import { DetailSkeleton } from "./components/DetailSkeleton";
 import Skeleton from "react-loading-skeleton";
+import { GetReservationSchedule } from "@/lib/api/GetReservationSchedule";
 
 export default function Detail() {
   const params = useParams();
@@ -34,8 +34,15 @@ export default function Detail() {
     queryKey: ["reviews", storeId],
     queryFn: () => GetReviewDetail(storeId),
     staleTime: 1000 * 60,
-    retry: false, // 실패 시 재시도 x
-    throwOnError: false, // 에러를 상위로 전파하지 않음
+    retry: false,
+    throwOnError: false,
+  });
+
+  const { data: reservationData, isLoading: reservationLoading } = useQuery({
+    queryKey: ["reservation", storeId],
+    queryFn: () => GetReservationSchedule(storeId),
+    staleTime: 1000 * 60,
+    throwOnError: false,
   });
 
   // 스토어 로딩 중
@@ -60,6 +67,12 @@ export default function Detail() {
 
   // 리뷰는 실패해도 빈 배열로 fallback
   const storereview = reviewData?.data.reviews ?? [];
+
+  console.log(reviewData?.data?.reviews);
+
+  // 예약 가능 일정
+  const reservation = reservationData?.data;
+  console.log(reservation);
 
   return (
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
@@ -133,7 +146,7 @@ export default function Detail() {
           <article className="mt-15 md:mt-21">
             <Heading title="감사 후기" />
             <div className="mt-3 md:mt-8">
-              <ThanksCard card={ThanksData} />
+              <ThanksCard card={storereview} />
             </div>
           </article>
         )}

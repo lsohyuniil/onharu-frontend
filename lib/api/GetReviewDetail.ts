@@ -6,8 +6,6 @@ export async function GetReviewDetail(id: string) {
   }
   const data = await res.json();
 
-  console.log(data);
-
   if (data.success === false) {
     throw new Error(data.message || "가게 리뷰 조회 실패");
   }
