@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { GetStoreDetail } from "@/lib/api/GetStoreDetail";
 import { Heading } from "./components/shared/heading";
-import { Like } from "@/components/feature/StoreLike";
+import LikeButton from "@/components/feature/LikeButton";
 import { FramerSlide } from "./components/framerSlide";
 import { Map } from "@/components/feature/map/map";
 import { Reservation } from "./components/reservation";
@@ -78,7 +78,7 @@ export default function Detail() {
       <div className="wrapper">
         <article>
           <Heading title={storedetail.name}>
-            <Like isLiked={false} />
+            <LikeButton storeId={Number(params.id)} isLiked={false} className="static" />
           </Heading>
           <div className="relative mt-5 h-[110px] md:mt-8 md:h-[340px]">
             <h3 className="sr-only">매장 내부, 음식 사진이 나열되어 있습니다.</h3>
