@@ -2,6 +2,7 @@
 export interface RawReservation {
   date: string; // "YYYY-MM-DD"
   time: string; // "HH:mm"
+  maxPeople: number;
 }
 
 // 그룹핑 결과 타입

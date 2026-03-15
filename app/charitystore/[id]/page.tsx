@@ -14,7 +14,7 @@ import { GetReviewDetail } from "@/lib/api/GetReviewDetail";
 import { CategoryData } from "@/components/feature/category/data";
 import { DetailSkeleton } from "./components/DetailSkeleton";
 import Skeleton from "react-loading-skeleton";
-import { GetReservationSchedule } from "@/lib/api/GetReservationSchedule";
+// import { GetReservationSchedule } from "@/lib/api/GetReservationSchedule";
 import { CharityDetail } from "@/types/store/type";
 
 export default function Detail() {
@@ -39,12 +39,12 @@ export default function Detail() {
     throwOnError: false,
   });
 
-  const { data: reservationData, isLoading: reservationLoading } = useQuery({
-    queryKey: ["reservation", storeId],
-    queryFn: () => GetReservationSchedule(storeId),
-    staleTime: 1000 * 60,
-    throwOnError: false,
-  });
+  // const { data: reservationData, isLoading: reservationLoading } = useQuery({
+  //   queryKey: ["reservation", storeId],
+  //   queryFn: () => GetReservationSchedule(storeId),
+  //   staleTime: 1000 * 60,
+  //   throwOnError: false,
+  // });
 
   // 스토어 로딩 중
   if (storeLoading) return <DetailSkeleton />;
@@ -72,7 +72,7 @@ export default function Detail() {
   const storereview = reviewData?.data.reviews ?? [];
 
   // 예약 가능 일정
-  const reservation = reservationData?.data;
+  // const reservation = reservationData?.data;
 
   return (
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
