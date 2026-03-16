@@ -4,11 +4,10 @@ import { MonthlySummary } from "@/types/store/schedules/type";
 
 interface ReservationProps {
   storeId?: string;
-  data?: MonthlySummary[];
   isSharing: boolean;
 }
 
-export const ReservationBtn = ({ storeId, data, isSharing }: ReservationProps) => {
+export const ReservationBtn = ({ storeId, isSharing }: ReservationProps) => {
   const router = useRouter();
 
   if (!isSharing) {

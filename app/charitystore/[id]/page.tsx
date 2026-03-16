@@ -131,11 +131,7 @@ export default function Detail() {
         </article>
         <article className="mt-15 md:mt-21">
           <Heading title="예약 정보" addClassName="justify-between">
-            <ReservationBtn
-              storeId={storeId}
-              data={reservation}
-              isSharing={storedetail.isSharing}
-            />
+            <ReservationBtn storeId={storeId} isSharing={storedetail.isSharing} />
           </Heading>
           <div className="mt-3 md:mt-8">
             <Reservation status="short" />
