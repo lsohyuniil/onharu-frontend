@@ -1,0 +1,99 @@
+import { FormatKoreanDate } from "@/components/feature/reservation/utils/FormatKoreanDate";
+import { RiArrowDownSLine, RiArrowUpSLine } from "@remixicon/react";
+import { useState } from "react";
+
+interface SelectedReservationListProps {
+  selectedTimesMap: Record<string, string[]>;
+  handleRemoveTime: (date: string, time: string) => void;
+  handleRemoveDate: (date: string) => void;
+  handleClearAll: () => void;
+}
+
+export function SelectedReservationList({
+  selectedTimesMap,
+  handleRemoveTime,
+  handleRemoveDate,
+  handleClearAll,
+}: SelectedReservationListProps) {
+  const [open, setOpen] = useState(true);
+
+  const entries = Object.entries(selectedTimesMap).sort(
+    ([a], [b]) => new Date(a).getTime() - new Date(b).getTime()
+  );
+
+  const totalCount = Object.values(selectedTimesMap).reduce((acc, times) => acc + times.length, 0);
+
+  if (entries.length === 0)
+    return (
+      <div className="rounded-md border border-gray-300 bg-white p-3 text-center md:p-5">
+        <button onClick={() => setOpen(prev => !prev)} className="flex w-full font-semibold">
+          <div>선택된 일정이 없습니다.</div>
+        </button>
+      </div>
+    );
+
+  return (
+    <div className="rounded-md border border-gray-300 bg-white p-3 text-center md:p-5">
+      {/* 헤더 */}
+      <div className="relative flex items-center justify-between">
+        <button
+          onClick={() => setOpen(prev => !prev)}
+          className="flex w-full justify-between font-semibold"
+        >
+          <div>
+            선택된 일정 <span className="text-main">{totalCount}개</span>
+          </div>
+          {open ? <RiArrowDownSLine className="h-6 w-6" /> : <RiArrowUpSLine className="h-6 w-6" />}
+        </button>
+
+        <button
+          onClick={handleClearAll}
+          className="absolute left-30 cursor-pointer text-sm font-semibold text-red-500"
+        >
+          전체 삭제
+        </button>
+      </div>
+
+      {/* 드롭다운 */}
+      {open && (
+        <div className="mt-4 space-y-4">
+          {entries.map(([date, times]) => (
+            <div key={date}>
+              {/* 날짜 + 날짜 삭제 */}
+              <div className="flex items-center justify-between">
+                <p className="font-medium">{FormatKoreanDate(date)}</p>
+
+                <button
+                  onClick={() => handleRemoveDate(date)}
+                  className="cursor-pointer text-xs font-semibold text-red-400"
+                >
+                  날짜 삭제
+                </button>
+              </div>
+
+              {/* 시간 리스트 */}
+              <div className="mt-2 flex flex-wrap gap-2">
+                {[...times].sort().map(time => (
+                  <div
+                    key={time}
+                    className="flex items-center gap-1 rounded-md bg-gray-200 px-2 py-1 text-sm sm:px-3 sm:py-2 sm:text-base"
+                  >
+                    <span>{time}</span>
+
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTime(date, time)}
+                      className="cursor-pointer text-red-500"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
