@@ -27,6 +27,13 @@ export const useMultiReservationTime = ({ selectedDate }: { selectedDate: Date |
         ? currentTimes.filter(t => t !== value)
         : [...currentTimes, value];
 
+      // 시간 배열이 비어 있으면 날짜 키 삭제
+      if (newTimes.length === 0) {
+        const newMap = { ...prev };
+        delete newMap[dateKey];
+        return newMap;
+      }
+
       return {
         ...prev,
         [dateKey]: newTimes,
