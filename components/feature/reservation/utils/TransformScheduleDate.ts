@@ -10,6 +10,7 @@ export function TransformScheduleData(apiResponse: ScheduleApiResponse): RawRese
     summary.dailyScheduleDetails
       .filter((detail: DailyScheduleDetail) => detail.isAvailable)
       .map((detail: DailyScheduleDetail) => ({
+        id: detail.id,
         date: summary.date,
         time: detail.startTime.slice(0, 5),
         maxPeople: detail.maxPeople,

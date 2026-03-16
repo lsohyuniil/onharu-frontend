@@ -1,5 +1,3 @@
-// type/ScheduleType.ts
-
 export interface DailyScheduleDetail {
   id: number;
   storeId: number;

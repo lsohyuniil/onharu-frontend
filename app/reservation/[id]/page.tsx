@@ -20,6 +20,7 @@ import { TransformScheduleData } from "@/components/feature/reservation/utils/Tr
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useMemo, useState } from "react";
+import { handleReservationSubmit } from "@/components/feature/reservation/utils/ReservationSubmit";
 
 export default function Reservation() {
   const params = useParams();
@@ -28,6 +29,7 @@ export default function Reservation() {
   const { selectedDate, setSelectedDate } = useCalendarSelect();
   const { selectedTime, handleSelectTime } = useReservationTime({ selectedDate });
   const [maxPeople, setMaxPeople] = useState<number>(1);
+  const [storeScheduleId, setStoreScheduleId] = useState<number | null>(null);
   const counterDisabled = !selectedDate || !selectedTime;
 
   const now = new Date();
@@ -38,7 +40,6 @@ export default function Reservation() {
   });
 
   useEffect(() => {
-    console.log(counterDisabled);
     if (counterDisabled === true) {
       handleCounterInit();
     }
@@ -66,12 +67,12 @@ export default function Reservation() {
   };
 
   useEffect(() => {
-    const maxPeople =
-      rawData.find(
-        r => r.date === (selectedDate ? formatDate(selectedDate) : "") && r.time === selectedTime
-      )?.maxPeople ?? 5;
-
-    setMaxPeople(maxPeople);
+    const matched = rawData.find(
+      r => r.date === (selectedDate ? formatDate(selectedDate) : "") && r.time === selectedTime
+    );
+    setMaxPeople(matched?.maxPeople ?? 5);
+    setStoreScheduleId(matched?.id ?? null);
+    console.log(matched?.id);
   }, [selectedDate, selectedTime, rawData]);
 
   //console.log(maxPeople);
@@ -133,7 +134,9 @@ export default function Reservation() {
             fontSize="md"
             width="lg"
             height="lg"
-            onClick={() => handleSubmit(selectedDate, selectedTime, counter)}
+            onClick={() =>
+              handleReservationSubmit(selectedDate, selectedTime, counter, storeId, storeScheduleId)
+            }
           >
             예약하기
           </Button>

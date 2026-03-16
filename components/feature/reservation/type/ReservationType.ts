@@ -1,5 +1,6 @@
 // 원본 데이터 타입
 export interface RawReservation {
+  id: number;
   date: string; // "YYYY-MM-DD"
   time: string; // "HH:mm"
   maxPeople: number;

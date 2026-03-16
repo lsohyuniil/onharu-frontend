@@ -30,8 +30,6 @@ export const ReservationCalendar = ({
   });
   const filterDate = (d: Date) => availableDates.some(ad => isSameDay(d, ad));
 
-  console.log(data);
-
   return (
     <Calendar
       filterDate={filterDate}
