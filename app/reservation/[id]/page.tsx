@@ -9,7 +9,6 @@ import { ReservationTime } from "../../../components/feature/reservation/Reserva
 import { PeopleCounter } from "../components/PeopleCounter";
 import { usePeopleCounter } from "../hooks/usePeopleCounter";
 import { Button } from "@/components/ui/Button";
-import { handleSubmit } from "../utils/ReservationSubmit";
 import { useParams } from "next/navigation";
 import { useCalendarSelect } from "@/components/feature/calendar/useCalendarSelect";
 import { useReservationTime } from "@/components/feature/reservation/useReservationTime";
