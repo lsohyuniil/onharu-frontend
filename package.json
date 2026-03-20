@@ -29,6 +29,7 @@
     "react-dom": "19.2.3",
     "react-focus-lock": "^2.13.7",
     "react-hook-form": "^7.71.1",
+    "react-intersection-observer": "^10.0.3",
     "react-loading-skeleton": "^3.5.0",
     "react-toastify": "^11.0.5",
     "remixicon": "^4.8.0",

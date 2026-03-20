@@ -37,6 +37,7 @@ export interface ReadMessageReq {
 // 개별 채팅 메시지 상세 정보
 export interface ChatMessage {
   chatMessageId: number;
+  sender?: number;
   senderName: string;
   content: string;
   createdAt: string;

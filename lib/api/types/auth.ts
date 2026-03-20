@@ -9,6 +9,7 @@ export interface ImageInfo {
 export interface ChildData {
   userType: "CHILD";
   loginId: string;
+  userId?: number;
   name: string;
   phone: string;
   nickname: string;
@@ -18,6 +19,7 @@ export interface ChildData {
 export interface OwnerData {
   userType: "OWNER";
   loginId: string;
+  userId?: number;
   name: string;
   phone: string;
   levelName?: string;
