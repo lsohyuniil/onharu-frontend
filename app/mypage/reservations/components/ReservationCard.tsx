@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/Button";
 import StatusBadge from "./StatusBadge";
 import ReservationActionButtons from "./ReservationActionButtons";
-import formatDateTime from "../../utils/format";
-import { ChildReservationCardProps, OwnerReservationCardProps } from "../types";
+import { ChildReservation, OwnerReservation } from "@/lib/api/types/reservation";
+import formatDateTime from "@/utils/formatDateTime";
 
 type ReservationCardProps = (ChildReservationCardProps | OwnerReservationCardProps) & {
   className?: string;
