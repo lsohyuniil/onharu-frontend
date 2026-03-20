@@ -40,7 +40,7 @@ export function useChatSocket(roomId: number | null, senderId: number) {
     // 서버에서 메시지 받았을 때 처리
     const handleIncomingMessage = (message: IMessage) => {
       try {
-        const newMessage: ChatMessage = JSON.parse(message.body); 
+        const newMessage: ChatMessage = JSON.parse(message.body);
 
         // React Query 캐시에 메시지 추가
         queryClient.setQueryData<InfiniteData<ChatPageRes>>(["chatMessages", roomId], oldData => {
@@ -48,14 +48,18 @@ export function useChatSocket(roomId: number | null, senderId: number) {
 
           // 기존 페이지 복사 후 첫 페이지에 새 메시지 추가
           const newPages = [...oldData.pages];
+          const firstPageMessages = newPages[0].data.chatRoomMessageResponses;
+
+          // 중복 메시지 제거
+          if (firstPageMessages.some(msg => msg.chatMessageId === newMessage.chatMessageId)) {
+            return oldData;
+          }
+
           newPages[0] = {
             ...newPages[0],
             data: {
               ...newPages[0].data,
-              chatRoomMessageResponses: [
-                newMessage,
-                ...(newPages[0].data?.chatRoomMessageResponses || []),
-              ],
+              chatRoomMessageResponses: [newMessage, ...firstPageMessages],
             },
           };
 
