@@ -28,8 +28,7 @@ export function useChatSocket(roomId: number | null, senderId: number) {
   useEffect(() => {
     if (!roomId) return; // 방 ID 없으면 연결 안 함
 
-    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const brokerURL = `${protocol}://onharu-api.votex.co.kr:15080/ws-chat`;
+    const brokerURL = process.env.NEXT_PUBLIC_WS_URL;
 
     // STOMP 클라이언트 생성 (웹소켓 기반 실시간 메시지 통신)
     const stompClient = new Client({
@@ -83,10 +82,15 @@ export function useChatSocket(roomId: number | null, senderId: number) {
     };
 
     // 연결 끊김 및 에러 처리
-    stompClient.onDisconnect = () => setIsConnected(false);
+    stompClient.onDisconnect = () => {
+      setIsConnected(false);
+      stompClientRef.current = null;
+    };
+
     stompClient.onStompError = frame => {
       console.error("STOMP ERROR:", frame);
       setIsConnected(false);
+      stompClientRef.current = null;
     };
 
     // 클라이언트 참조 저장 및 활성화
@@ -94,9 +98,12 @@ export function useChatSocket(roomId: number | null, senderId: number) {
     stompClient.activate();
 
     // cleanup: 컴포넌트 언마운트 시 연결 해제
+
     return () => {
-      if (stompClient.connected) stompClient.deactivate();
-      stompClientRef.current = null;
+      if (stompClientRef.current) {
+        stompClientRef.current.deactivate();
+        stompClientRef.current = null;
+      }
       setIsConnected(false);
     };
   }, [roomId, queryClient]);
