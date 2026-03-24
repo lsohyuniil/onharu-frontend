@@ -6,9 +6,6 @@ interface ReservationProps {
 }
 
 export const Reservation = ({ data }: ReservationProps) => {
-  console.log(data);
-  const time = ["11:00", "12:00", "15:00"];
-
   const availableDates = data.filter(day => day.availableSlots > 0);
   const formatDate = (dateStr: string) => {
     const [year, month, day] = dateStr.split("-");

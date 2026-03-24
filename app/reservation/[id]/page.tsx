@@ -71,10 +71,7 @@ export default function Reservation() {
     );
     setMaxPeople(matched?.maxPeople ?? 5);
     setStoreScheduleId(matched?.id ?? null);
-    console.log(matched?.id);
   }, [selectedDate, selectedTime, rawData]);
-
-  //console.log(maxPeople);
 
   return (
     <section className="mt-section-sm-top lg:mt-section-lg-top mb-section-sm-bottom lg:mb-section-lg-bottom">
