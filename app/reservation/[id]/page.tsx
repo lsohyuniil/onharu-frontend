@@ -20,11 +20,12 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useEffect, useMemo, useState } from "react";
 import { handleReservationSubmit } from "@/components/feature/reservation/utils/ReservationSubmit";
+import { useRouter } from "next/navigation";
 
 export default function Reservation() {
   const params = useParams();
   const storeId = params.id as string;
-
+  const router = useRouter();
   const { selectedDate, setSelectedDate } = useCalendarSelect();
   const { selectedTime, handleSelectTime } = useReservationTime({ selectedDate });
   const [maxPeople, setMaxPeople] = useState<number>(1);
@@ -131,7 +132,14 @@ export default function Reservation() {
             width="lg"
             height="lg"
             onClick={() =>
-              handleReservationSubmit(selectedDate, selectedTime, counter, storeId, storeScheduleId)
+              handleReservationSubmit(
+                selectedDate,
+                selectedTime,
+                counter,
+                storeId,
+                storeScheduleId,
+                router
+              )
             }
           >
             예약하기
