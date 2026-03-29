@@ -24,7 +24,7 @@ export const Card = (props: CardProps) => {
   const reservation = props.type === "nearby" ? props.reservation : null;
   const category = props.type === "charity" ? props.category : null;
   const hashtags = props.type === "charity" ? props.hashtags : null;
-  const distance = props.distance;
+  const distance = props.type === "charity" ? props.distance : null;
 
   const { data: user } = useAuthProfile();
 
@@ -78,6 +78,7 @@ export const Card = (props: CardProps) => {
               </div>
             )}
 
+<<<<<<< HEAD
             <div className={cn("flex flex-col justify-end")}>
               {distance && (
                 <p className="text-main text-right text-sm font-semibold">
@@ -86,6 +87,33 @@ export const Card = (props: CardProps) => {
               )}
               {hashtags && hashtags}
             </div>
+=======
+            {props.type === "charity" && (
+              <div className={cn("flex flex-col justify-end")}>
+                {distance != null ? (
+                  <p className="text-main text-right text-sm font-semibold">
+                    {distance < 1 ? `${Math.round(distance * 1000)}m` : `${distance.toFixed(1)}km`}
+                  </p>
+                ) : (
+                  <div className="flex w-full justify-end gap-1">
+                    <span
+                      className="bg-main-400 block h-1.5 w-1.5 animate-bounce rounded-full"
+                      style={{ animationDelay: "0ms" }}
+                    />
+                    <span
+                      className="bg-main-400 block h-1.5 w-1.5 animate-bounce rounded-full"
+                      style={{ animationDelay: "150ms" }}
+                    />
+                    <span
+                      className="bg-main-400 block h-1.5 w-1.5 animate-bounce rounded-full"
+                      style={{ animationDelay: "300ms" }}
+                    />
+                  </div>
+                )}
+                {hashtags && hashtags}
+              </div>
+            )}
+>>>>>>> c9a0f9a (지도 호출 리스트 변경, km 삭제)
           </div>
         </div>
       </div>
