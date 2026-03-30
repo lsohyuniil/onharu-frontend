@@ -1,4 +1,5 @@
 import { BusinessHour } from "@/lib/api/types/stores";
+import { TimeSlot } from "@/components/feature/reservation/type/ReservationType";
 
 export const CATEGORY_MAP: Record<string, number> = {
   식당: 1,
@@ -8,7 +9,7 @@ export const CATEGORY_MAP: Record<string, number> = {
   생활: 5,
 };
 
-export const PERIODS = ["1개월", "3개월", "6개월", "1년"];
+export const PERIODS = ["1개월", "3개월", "6개월"];
 
 export const DAYS = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"];
 
@@ -22,15 +23,18 @@ export const DAY_MAP: Record<string, BusinessHour["businessDay"]> = {
   일요일: "SUN",
 };
 
-export const TIMES = [
-  "10:00",
-  "11:00",
-  "12:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
-  "17:00",
-  "18:00",
-  "종일",
+export const TIMES: TimeSlot[] = [
+  { time: "09:00", isAvailable: true },
+  { time: "10:00", isAvailable: true },
+  { time: "11:00", isAvailable: true },
+  { time: "12:00", isAvailable: true },
+  { time: "13:00", isAvailable: true },
+  { time: "14:00", isAvailable: true },
+  { time: "15:00", isAvailable: true },
+  { time: "16:00", isAvailable: true },
+  { time: "17:00", isAvailable: true },
+  { time: "18:00", isAvailable: true },
+  { time: "19:00", isAvailable: true },
+  { time: "20:00", isAvailable: true },
+  { time: "21:00", isAvailable: true },
 ];

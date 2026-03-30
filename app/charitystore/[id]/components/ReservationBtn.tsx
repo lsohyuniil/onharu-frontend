@@ -64,21 +64,6 @@ export const ReservationBtn = ({
         height="md"
         onClick={() => {
           if (user?.userType !== "CHILD") {
-            Toast("info", "아동 회원만 예약 가능합니다.");
-            return;
-          }
-          enterChat(Number(storeId), storeName);
-        }}
-      >
-        예약하기
-      </Button>
-      <Button
-        varient="dark"
-        fontSize="md"
-        width="md"
-        height="md"
-        onClick={() => {
-          if (user?.userType !== "CHILD") {
             Toast("info", "아동 회원만 채팅 가능합니다.");
             return;
           }
