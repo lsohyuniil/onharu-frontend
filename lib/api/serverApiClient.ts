@@ -81,6 +81,14 @@ export class ServerApiClient {
       };
     }
 
+    if (res.status === 204) {
+      return {
+        success: true,
+        data: null,
+        headers: res.headers,
+      };
+    }
+
     return {
       success: true,
       data: (data as SuccessResponse<T>).data,
