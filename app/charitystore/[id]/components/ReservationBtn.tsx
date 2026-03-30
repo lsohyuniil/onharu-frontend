@@ -10,6 +10,7 @@ interface ReservationProps {
   storeId?: string;
   isSharing: boolean;
   reservation: DateSummaries[] | [];
+  storeUserId: number;
 }
 
 export const ReservationBtn = ({
@@ -17,6 +18,7 @@ export const ReservationBtn = ({
   storeId,
   isSharing,
   reservation,
+  storeUserId,
 }: ReservationProps) => {
   const router = useRouter();
   const { enterChat } = useEnterChat();
@@ -35,7 +37,7 @@ export const ReservationBtn = ({
             Toast("info", "아동 회원만 채팅 가능합니다.");
             return;
           }
-          enterChat(Number(storeId), storeName);
+          enterChat(Number(storeUserId), storeName);
         }}
       >
         채팅하기
@@ -67,7 +69,7 @@ export const ReservationBtn = ({
             Toast("info", "아동 회원만 채팅 가능합니다.");
             return;
           }
-          enterChat(Number(storeId), storeName);
+          enterChat(Number(storeUserId), storeName);
         }}
       >
         채팅하기

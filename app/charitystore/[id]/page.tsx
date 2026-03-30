@@ -74,7 +74,7 @@ export default function Detail() {
 
   // 예약 가능 일정
   const reservation = scheduleData?.data.dateSummaries ?? [];
-  const availableDates = reservation.filter(day => day.availableSlots > 0);
+  // const availableDates = reservation.filter(day => day.availableSlots > 0);
 
   return (
     <section className="mt-section-sm-top md:mt-section-lg-top mb-section-sm-bottom md:mb-section-lg-bottom">
@@ -132,6 +132,7 @@ export default function Detail() {
               reservation={reservation}
               storeName={storedetail.name}
               storeId={storeId}
+              storeUserId={storedetail.userId}
               isSharing={storedetail.isSharing}
             />
           </Heading>
