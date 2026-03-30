@@ -54,20 +54,6 @@ export const ReservationTime = ({
   if (timesForSelectedDate.length > 0) {
     return (
       <div className="grid grid-cols-4 gap-2">
-<<<<<<< HEAD
-        {timesForSelectedDate.map(date => (
-          <button
-            key={date}
-            onClick={() => handleSelectTime(date)}
-            className={clsx(
-              "focus-visible:bg-main-300 cursor-pointer rounded-md border border-gray-300 bg-white py-2 transition duration-150 hover:bg-gray-50 md:py-4",
-              selectedTime === date && "!bg-main text-white"
-            )}
-          >
-            {date}
-          </button>
-        ))}
-=======
         {timesForSelectedDate.map(slot => {
           const isSelected = Array.isArray(selectedTime)
             ? selectedTime.includes(slot.time)
@@ -92,7 +78,6 @@ export const ReservationTime = ({
             </button>
           );
         })}
->>>>>>> b5241a2 (예약 페이지에서 현재 시간 이전 버튼 비활성화)
       </div>
     );
   }

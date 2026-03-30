@@ -74,10 +74,7 @@ export default function Reservation() {
     );
     setMaxPeople(matched?.maxPeople ?? 5);
     setStoreScheduleId(matched?.id ?? null);
-<<<<<<< HEAD
-=======
     // console.log(matched?.id);
->>>>>>> b5241a2 (예약 페이지에서 현재 시간 이전 버튼 비활성화)
   }, [selectedDate, selectedTime, rawData]);
 
   return (
