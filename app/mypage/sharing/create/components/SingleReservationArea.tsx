@@ -22,7 +22,12 @@ export function SingleReservationArea({
   onMonthChange?: (year: number, month: number) => void;
 }) {
   const dataForReservation: GroupedReservations = selectedDate
-    ? { [format(selectedDate, "yyyy-MM-dd")]: TIMES }
+    ? {
+        [format(selectedDate, "yyyy-MM-dd")]: TIMES.map(slot => ({
+          ...slot,
+          isAvailable: !existingSchedules[format(selectedDate, "yyyy-MM-dd")]?.includes(slot.time),
+        })),
+      }
     : {};
 
   const reservedDates = getFutureOrTodayDates(Object.keys(existingSchedules ?? {}));

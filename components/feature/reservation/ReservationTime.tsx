@@ -24,7 +24,6 @@ export const ReservationTime = ({
   selectedDate,
   selectedTime,
   handleSelectTime,
-  existingSchedules,
 }: ReservationTimeProps) => {
   const formatted = selectedDate ? format(selectedDate, "yyyy-MM-dd") : "";
   const timesForSelectedDate = data[formatted] || [];
