@@ -6,7 +6,7 @@ import Link from "next/link";
 import Input from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
-import KakaoLoginButton from "./KakaoLoginButton";
+// import KakaoLoginButton from "./KakaoLoginButton";
 import { LoginFormValues } from "../types";
 import { useLogin } from "@/hooks/useLogin";
 import { useRouter } from "next/navigation";
@@ -102,9 +102,9 @@ export default function LoginForm() {
           </Link>
         </div>
 
-        <hr className="my-6.25 border-gray-300" />
+        {/* <hr className="my-6.25 border-gray-300" /> */}
 
-        <KakaoLoginButton className="flex justify-center" />
+        {/* <KakaoLoginButton className="flex justify-center" /> */}
       </form>
     </div>
   );
