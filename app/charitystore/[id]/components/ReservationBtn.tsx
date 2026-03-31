@@ -34,6 +34,10 @@ export const ReservationBtn = ({
           width="md"
           height="md"
           onClick={() => {
+            if (user?.userType !== "CHILD") {
+              Toast("info", "아동 회원만 예약 가능합니다.");
+              return;
+            }
             router.push(`/reservation/${storeId}`);
           }}
         >

@@ -97,7 +97,7 @@ export default function Detail() {
         <article>
           <Heading title={storedetail.name}>
             {isChild && (
-              <div className="absolute top-2 right-5 z-5">
+              <div className="flex items-center justify-center">
                 <LikeButton storeId={Number(params.id)} isLiked={isLiked} className="static" />
               </div>
             )}
